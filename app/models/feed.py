@@ -21,7 +21,7 @@ class FeedImage(Base):
     __tablename__ = "FeedImage"
 
     id = Column(Integer, primary_key = True, index = True)
-    feed_id = Column(Integer, ForeignKey("Feed.id"), ondelete = "CASCADE")
+    feed_id = Column(Integer, ForeignKey("Feed.id", ondelete = "CASCADE"))
     imageURL = Column(String)
 
     feed = relationship("Feed", back_populates = "images")

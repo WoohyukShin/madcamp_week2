@@ -1,14 +1,8 @@
 import enum
 from app.db.db import Base
 from app.models.relations import Follow
-from sqlalchemy import Column, Integer, String, DateTime, Enum
+from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import relationship
-
-class AuthType(enum.Enum):
-    email = "email"
-    kakao = "kakao"
-class Gender(enum.Enum):
-    "male", "female"
 
 class User(Base):
     __tablename__ = "User"
@@ -20,8 +14,8 @@ class User(Base):
     nickname = Column(String, unique=True, nullable=False)
     password = Column(String, nullable=True)
     birthday = Column(DateTime)
-    gender = Column(Gender)
-    auth_type = Column(Enum(AuthType), nullable=False)
+    gender = Column(String)
+    auth_type = Column(String, nullable=False)
 
     following = relationship (
         "User",

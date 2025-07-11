@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+sqlalchemy
+pydantic[email]
+email-validator
+python-jose
+python-dotenv
+redis
+sendgrid
+passlib

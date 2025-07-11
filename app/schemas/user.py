@@ -9,4 +9,4 @@ class UserResponse(BaseModel):
     imageURL: Optional[str] = None
     nickname: str
     birthday: datetime
-    gender: Literal["male", "female"]
+    gender: str
