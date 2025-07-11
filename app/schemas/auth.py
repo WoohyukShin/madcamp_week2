@@ -24,8 +24,10 @@ class OAuthLoginRequest(BaseModel):
     auth_type: Literal["naver", "kakao", "facebook"]
 
 class LoginResponse(BaseModel):
+    success: bool
+    
     access_token: str
-    token_type: str = "bearer"
+    token_type: str
 
 class OAuthLoginResponse(BaseModel):
     exists: bool 

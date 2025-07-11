@@ -2,6 +2,7 @@ import os
 import redis
 import random, string
 
+from dotenv import load_dotenv
 from app.models.user import User
 from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
@@ -13,6 +14,7 @@ from fastapi.security import OAuth2PasswordBearer
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
+load_dotenv()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 r = redis.Redis(host="localhost", port=6379, decode_responses=True)
 
@@ -20,6 +22,7 @@ def generate_code(length: int = 6) -> str: # 메일 인증 코드 생성 (숫자
     return ''.join(random.choices(string.digits, k=length))
 
 def send_verification_email(email: str, vertification_code: str): # email로 vertification code 보냄
+    print("Hello World!!!!!")
     message = Mail(
         from_email="urihiya1@kaist.ac.kr",
         to_emails=email,
@@ -28,8 +31,11 @@ def send_verification_email(email: str, vertification_code: str): # email로 ver
     )
     try:
         sg = SendGridAPIClient(os.environ.get("SENDGRID_API_KEY"))
+        print(repr(os.environ.get("SENDGRID_API_KEY")))
+        print(f"[DEBUG] send_vertification_email : your email = {email}")
         sg.send(message)
     except Exception as e:
+        print(f"[ERROR] {type(e).__name__}: {e}")
         raise HTTPException(status_code=500, detail="Failed to send email")
 
 SECRET_KEY = "asdfasdfasdf"

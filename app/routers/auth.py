@@ -1,12 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, Body
 from sqlalchemy.orm import Session
-import os
 import json
 import redis
-import random, string
 from dotenv import load_dotenv
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
 from app.db.db import get_db
 from app.models.user import User
 from app.schemas.user import UserResponse
@@ -28,9 +24,11 @@ def signup(user_data: SignupRequest, db: Session = Depends(get_db)):
     vertification_code = generate_code()
     redis_value = user_data.model_dump()
     redis_value["code"] = vertification_code
+    print("before r.setex")
     r.setex(f"verify:{user_data.email}", 600, json.dumps(redis_value))
-
+    print("before send_vertification_email")
     send_verification_email(user_data.email, vertification_code)
+    print("after send_vertification_email")
     return { "message" : "Vertification code sent" }
     
 @router.post("/vertify") # 인증 코드 받아서 확인되면 아까 입력된 정보로 User 만들고 new User의 id 반환
@@ -69,8 +67,8 @@ def login(login_data: LoginRequest, db: Session = Depends(get_db)):
     if not user or not verify_password(login_data.password, user.password):
         raise HTTPException(status_code=401, detail="이메일 또는 비밀번호가 틀렸습니다.")
 
-    token = create_jwt_token(user.user_id)
-    return LoginResponse(token, "bearer")
+    token = create_jwt_token(user.id)
+    return LoginResponse(success = True, access_token=token, token_type="bearer")
 
 @router.post("/signup/oauth") # oauth login fail -> 회원가입 창에서 new signup request를 받았을 때
 def oauth_signup(user_data: OAuthSignupRequest, db: Session = Depends(get_db)):
