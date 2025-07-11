@@ -1,0 +1,42 @@
+import enum
+from app.db.db import Base
+from app.models.relations import Follow
+from sqlalchemy import Column, Integer, String, DateTime, Enum
+from sqlalchemy.orm import relationship
+
+class AuthType(enum.Enum):
+    email = "email"
+    kakao = "kakao"
+class Gender(enum.Enum):
+    "male", "female"
+
+class User(Base):
+    __tablename__ = "User"
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    email = Column(String, unique=True, nullable=False)
+    name = Column(String, nullable=False)
+    imageURL = Column(String)
+    nickname = Column(String, unique=True, nullable=False)
+    password = Column(String, nullable=True)
+    birthday = Column(DateTime)
+    gender = Column(Gender)
+    auth_type = Column(Enum(AuthType), nullable=False)
+
+    following = relationship (
+        "User",
+        secondary=Follow.__table__,
+        primaryjoin=(id == Follow.follower_id),
+        secondaryjoin=(id == Follow.followee_id),
+        back_populates="followers"
+    )
+    followers = relationship(
+        "User",
+        secondary=Follow.__table__,
+        primaryjoin=(id == Follow.followee_id),
+        secondaryjoin=(id == Follow.follower_id),
+        back_populates="following"
+    )
+    feeds = relationship("Feed", back_populates = "user")
+    feed_like = relationship("FeedLike", back_populates = "liked_user")
+    feed_save = relationship("FeedSave", back_populates = "saved_user")
