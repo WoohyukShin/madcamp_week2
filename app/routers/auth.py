@@ -40,7 +40,7 @@ def signup(user_data: SignupRequest, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_user)
 
-    return SignupResponse("회원가입 성공", new_user.id)
+    return SignupResponse(message = "회원가입 성공", user_id = new_user.id)
     
 @router.post("/verify/signup")  # signup을 위해 이메일 인증
 def verify_signup(req: EmailRequest, db: Session = Depends(get_db)):
@@ -105,7 +105,7 @@ def oauth_signup(user_data: SignupRequest, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_user)
 
-    return SignupResponse("회원가입 성공", new_user.id)
+    return SignupResponse(message = "회원가입 성공", user_id = new_user.id)
 
 @router.post("/login/oauth") # oauth 연동해서 로그인, 성공 여부와 함께 마찬가지로 token 반환 (false면 front에서 oauth 기반 회원가입 창으로 넘어감)
 def oauth_login(request: OAuthLoginRequest, db: Session = Depends(get_db)):
