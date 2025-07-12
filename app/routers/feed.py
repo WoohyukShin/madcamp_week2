@@ -82,7 +82,7 @@ def get_my_feeds(page: int = Query(1, ge=1),db: Session = Depends(get_db),user: 
         ))
     return response
 
-@router.post("/feeds") # 피드 작성
+@router.post("") # 피드 작성
 def create_feed(content: str = Form(...),images: List[UploadFile] = File([]),
                 db: Session = Depends(get_db),user: User = Depends(get_current_user)):
     feed = Feed(
@@ -103,7 +103,7 @@ def create_feed(content: str = Form(...),images: List[UploadFile] = File([]),
     db.commit()
     return {"message": "Feed created", "feed_id": feed.id}
 
-@router.put("/feeds/{feed_id}") # 피드 수정
+@router.put("/{feed_id}") # 피드 수정
 def update_feed(
     feed_id: int,
     content: str = Form(...),
@@ -131,7 +131,7 @@ def update_feed(
     db.commit()
     return { "message": "Feed updated" }
 
-@router.delete("/feeds/{feed_id}") # 피드 삭제
+@router.delete("/{feed_id}") # 피드 삭제
 def delete_feed(feed_id: int, db: Session = Depends(get_db), user: User = Depends(get_current_user)):
     feed = db.query(Feed).filter(Feed.id == feed_id, Feed.user_id == user.id).first()
     if not feed:
@@ -146,7 +146,7 @@ def delete_feed(feed_id: int, db: Session = Depends(get_db), user: User = Depend
     db.commit()
     return {"message": "Feed deleted"}
 
-@router.post("/feeds/{feed_id}/like") # 피드 좋아요
+@router.post("/{feed_id}/like") # 피드 좋아요
 def like_feed(feed_id: int, db: Session = Depends(get_db), user: User = Depends(get_current_user)):
     feed = db.query(Feed).filter(Feed.id == feed_id).first()
     if not feed:
@@ -167,7 +167,7 @@ def like_feed(feed_id: int, db: Session = Depends(get_db), user: User = Depends(
     db.commit()
     return {"message": f"Feed {action}", "likes": feed.likes}
 
-@router.post("/feeds/{feed_id}/save")  # 피드 저장
+@router.post("/{feed_id}/save")  # 피드 저장
 def save_feed(feed_id: int, db: Session = Depends(get_db), user: User = Depends(get_current_user)):
     feed = db.query(Feed).filter(Feed.id == feed_id).first()
     if not feed:
@@ -188,7 +188,7 @@ def save_feed(feed_id: int, db: Session = Depends(get_db), user: User = Depends(
     db.commit()
     return {"message": f"Feed {action}"}
 
-@router.post("/feeds/{feed_id}/comments") # 댓글 작성
+@router.post("/{feed_id}/comments") # 댓글 작성
 def create_comment(feed_id: int, req: CommentCreateRequest, db: Session = Depends(get_db), user: User = Depends(get_current_user)):
     feed = db.query(Feed).filter(Feed.id == feed_id).first()
     if not feed:
@@ -207,46 +207,4 @@ def create_comment(feed_id: int, req: CommentCreateRequest, db: Session = Depend
     db.refresh(comment)
 
     return { "message": "Comment created", "comment_id": comment.id }
-
-@router.post("/comments/{comment_id}/like") # 댓글 좋아요 or 좋아요 취소
-def toggle_comment_like(comment_id: int, db: Session = Depends(get_db), user: User = Depends(get_current_user)):
-    comment = db.query(Comment).filter(Comment.id == comment_id).first()
-    if not comment:
-        raise HTTPException(status_code=404, detail="Comment not found")
-
-    already_like = (db.query(CommentLike).filter(CommentLike.comment_id == comment_id, CommentLike.user_id == user.id).first())
-
-    if already_like:
-        db.delete(already_like)
-        comment.likes -= 1
-        action = "unliked"
-    else:
-        new_like = CommentLike(comment_id=comment_id, user_id=user.id, created_at=datetime.utcnow())
-        db.add(new_like)
-        comment.likes += 1
-        action = "liked"
-
-    db.commit()
-    return {"message": f"Comment {action}", "likes": comment.likes}
-
-@router.put("/comments/{comment_id}") # 댓글 수정
-def update_comment(comment_id: int, req: CommentEditRequest, db: Session = Depends(get_db), user: User = Depends(get_current_user)):
-    comment = db.query(Comment).filter(Comment.id == comment_id).first()
-    if not comment or comment.user_id != user.id:
-        raise HTTPException(status_code=403, detail="No permission or comment not found")
-
-    comment.content = req.content
-    comment.updated_at = datetime.utcnow()
-    db.commit()
-    return {"message": "Comment updated"}
-
-@router.delete("/comments/{comment_id}") # 댓글 삭제
-def delete_comment(comment_id: int, db: Session = Depends(get_db), user: User = Depends(get_current_user)):
-    comment = db.query(Comment).filter(Comment.id == comment_id).first()
-    if not comment or comment.user_id != user.id:
-        raise HTTPException(status_code=403, detail="No permission or comment not found")
-
-    db.delete(comment)
-    db.commit()
-    return {"message": "Comment deleted"}
 
