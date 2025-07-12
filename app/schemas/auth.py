@@ -5,7 +5,6 @@ from pydantic import BaseModel, EmailStr
 class SignupRequest(BaseModel):
     email: EmailStr
     name: str
-    imageURL: Optional[str] = None
     nickname: str
     password: str
     birthday: Optional[datetime] = None
@@ -25,7 +24,7 @@ class OAuthLoginRequest(BaseModel):
 
 class LoginResponse(BaseModel):
     success: bool
-    
+
     access_token: str
     token_type: str
 
@@ -56,7 +55,6 @@ class PasswordResetCodeRequest(BaseModel):
 
 class OAuthSignupRequest(BaseModel):
     code: str
-    imageURL: Optional[str] = None
     nickname: str
     password: str
     birthday: Optional[datetime] = None

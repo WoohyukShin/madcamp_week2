@@ -3,7 +3,7 @@ from typing import Literal, Optional
 from pydantic import BaseModel, EmailStr
 
 class UserResponse(BaseModel):
-    user_id: str
+    id: int
     email: EmailStr
     name: str
     imageURL: Optional[str] = None

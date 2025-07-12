@@ -1,14 +1,13 @@
 import os
 import json
 import redis
-from fastapi import APIRouter, Depends, HTTPException, Body
+from fastapi import APIRouter, Depends, HTTPException, Body, Query
 from sqlalchemy.orm import Session
 from dotenv import load_dotenv
 from app.db.db import get_db
 from app.models.user import User
-from app.schemas.user import UserResponse
-from app.schemas.auth import LoginRequest, SignupRequest, OAuthLoginRequest, OAuthSignupRequest, VertifyRequest, LoginResponse, OAuthLoginResponse, SignupResponse, PasswordResetCodeRequest, PasswordResetRequest, PasswordChangeRequest
-from app.utils.auth import generate_code, send_verification_email, get_password_hash, verify_password, create_jwt_token, get_current_user
+from app.schemas import *
+from app.utils.auth import generate_code, send_verification_email, get_password_hash, verify_password, create_jwt_token, get_current_user, get_user_info_from_facebook, get_user_info_from_kakao, get_user_info_from_naver
 
 load_dotenv()
 
@@ -17,6 +16,12 @@ r = redis.from_url(
     decode_responses=True
 )
 router = APIRouter(prefix="/auth")
+
+@router.get("/check-nickname") # 중복확인 눌렀을 때 닉네임 중복 체크
+def check_nickname(nickname: str = Query(...), db: Session = Depends(get_db)):
+    if db.query(User).filter(User.nickname == nickname).first():
+        return {"available": False}
+    return {"available": True}
 
 @router.post("/signup") # 이메일, 이름, nickname... 등 기본적인 signup request를 받아서 인증 메일 보내고 알려줌.
 def signup(user_data: SignupRequest, db: Session = Depends(get_db)):
@@ -28,11 +33,8 @@ def signup(user_data: SignupRequest, db: Session = Depends(get_db)):
     vertification_code = generate_code()
     redis_value = user_data.model_dump()
     redis_value["code"] = vertification_code
-    print("before r.setex")
     r.setex(f"verify:{user_data.email}", 600, json.dumps(redis_value))
-    print("before send_vertification_email")
     send_verification_email(user_data.email, vertification_code)
-    print("after send_vertification_email")
     return { "message" : "Vertification code sent" }
     
 @router.post("/vertify") # 인증 코드 받아서 확인되면 아까 입력된 정보로 User 만들고 new User의 id 반환
@@ -50,7 +52,7 @@ def vertify_email(request: VertifyRequest, db: Session = Depends(get_db)):
     new_user = User(
         email=user_data["email"],
         name=user_data["name"],
-        imageURL=user_data.get("imageURL"),
+        imageURL=None,
         nickname=user_data["nickname"],
         password=get_password_hash(user_data["password"]),
         birthday=user_data["birthday"],
@@ -96,7 +98,7 @@ def oauth_signup(user_data: OAuthSignupRequest, db: Session = Depends(get_db)):
     new_user = User(
         email=email,
         name=name,
-        imageURL=user_data.imageURL,
+        imageURL=None,
         nickname=user_data.nickname,
         password=None,
         birthday=user_data.birthday,
@@ -109,19 +111,15 @@ def oauth_signup(user_data: OAuthSignupRequest, db: Session = Depends(get_db)):
 
     return SignupResponse("회원가입 성공", new_user.id)
 
-
 @router.post("/login/oauth") # oauth 연동해서 로그인, 성공 여부와 함께 마찬가지로 token 반환 (false면 front에서 oauth 기반 회원가입 창으로 넘어감)
 def oauth_login(request: OAuthLoginRequest, db: Session = Depends(get_db)):
     code = request.code
     auth_type = request.auth_type
     if auth_type == "naver":
-        return None
         user_info = get_user_info_from_naver(code)
     elif auth_type == "kakao":
-        return None
         user_info = get_user_info_from_kakao(code)
     elif auth_type == "facebook":
-        return None
         user_info = get_user_info_from_facebook(code)
     else:
         raise HTTPException(status_code=400, detail="Unsupported auth_type")
