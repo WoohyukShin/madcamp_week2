@@ -1,30 +1,41 @@
 import os
+import boto3
 from uuid import uuid4
 from fastapi import UploadFile
 from urllib.parse import urlparse
 
-def save_image(
-    file: UploadFile,
-    folder_name: str  # 예: "feeds", "users"
-) -> str:
-    base_folder = f"static/images/{folder_name}"
-    base_url = f"https://madcampweek2-production.up.railway.app/static/images/{folder_name}"
+AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+AWS_REGION = os.getenv("AWS_REGION")
+AWS_S3_BUCKET = os.getenv("AWS_S3_BUCKET")
 
-    os.makedirs(base_folder, exist_ok=True)
+s3 = boto3.client(
+    "s3",
+    aws_access_key_id=AWS_ACCESS_KEY_ID,
+    aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+    region_name=AWS_REGION,
+)
 
+def save_image(file: UploadFile, folder_name: str) -> str:
     ext = file.filename.split(".")[-1]
-    filename = f"{uuid4().hex}.{ext}"
-    filepath = os.path.join(base_folder, filename)
+    filename = f"{folder_name}/{uuid4().hex}.{ext}"
 
-    with open(filepath, "wb") as f:
-        f.write(file.file.read())
+    s3.upload_fileobj(
+        file.file,
+        AWS_S3_BUCKET,
+        filename,
+        ExtraArgs={
+            "ContentType": file.content_type,
+            "ACL": "public-read"
+        }
+    )
 
-    return f"{base_url}/{filename}"
+    imageURL = f"https://{AWS_S3_BUCKET}.s3.{AWS_REGION}.amazonaws.com/{filename}"
+    return imageURL
 
 def delete_image(image_url: str, folder_name: str):
     parsed = urlparse(image_url)
     filename = os.path.basename(parsed.path)
-    path = os.path.join("static", "images", folder_name, filename)
+    key = f"{folder_name}/{filename}"
 
-    if os.path.exists(path):
-        os.remove(path)
+    s3.delete_object(Bucket=AWS_S3_BUCKET, Key=key)

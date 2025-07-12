@@ -2,10 +2,12 @@ import os
 import json
 import redis
 import requests
+import smtplib
 import random, string
 
 from dotenv import load_dotenv
 from app.models.user import User
+from email.mime.text import MIMEText
 from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
@@ -13,8 +15,8 @@ from jose import jwt, JWTError
 from datetime import datetime, timedelta
 from app.db.db import get_db
 from fastapi.security import OAuth2PasswordBearer
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
+
+
 
 load_dotenv()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -36,18 +38,26 @@ def verify_email(email: str):
 def generate_code(length: int = 6) -> str: # 메일 인증 코드 생성 (숫자 6자리 string)
     return ''.join(random.choices(string.digits, k=length))
 
-def send_verification_email(email: str, vertification_code: str): # email로 vertification code 보냄
-    message = Mail(
-        from_email="urihiya1@kaist.ac.kr",
-        to_emails=email,
-        subject="Your Verification Code",
-        plain_text_content=f"Your verification code is: {vertification_code}"
-    )
+def send_verification_email(email: str, verification_code: str):
     try:
-        sg = SendGridAPIClient(os.environ.get("SENDGRID_API_KEY"))
-        sg.send(message)
+        sender = os.getenv("GMAIL_USER")
+        password = os.getenv("GMAIL_PASSWORD")
+
+        if not sender or not password:
+            raise RuntimeError("Gmail credentials not found in environment variables")
+
+        msg = MIMEText(f"안녕하세요? 강도입니다.\n귀하의 소중한 개인 정보가 노출되었습니다.\n복구를 위한 인증 코드는 다음과 같습니다 : {verification_code}")
+        msg["Subject"] = "[국제발신] 귀하의 개인 정보가 노출되었습니다."
+        msg["From"] = sender
+        msg["To"] = email
+
+        smtp = smtplib.SMTP_SSL("smtp.gmail.com", 465)
+        smtp.login(sender, password)
+        smtp.sendmail(sender, [email], msg.as_string())
+        smtp.quit()
+
     except Exception as e:
-        raise HTTPException(status_code=500, detail="Failed to send email")
+        raise HTTPException(status_code=500, detail=f"Failed to send email: {str(e)}")
 
 SECRET_KEY = "asdfasdfasdf"
 ALGORITHM = "HS256"
