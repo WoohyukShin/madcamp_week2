@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from app.db.db import get_db
 from app.models.user import User
 from app.schemas import *
-from app.utils.auth import generate_code, send_verification_email, get_password_hash, verify_password, create_jwt_token, get_current_user, get_user_info_from_facebook, get_user_info_from_kakao, get_user_info_from_naver
+from app.utils.auth import vertify_email, get_password_hash, verify_password, create_jwt_token, get_current_user, get_user_info_from_facebook, get_user_info_from_kakao, get_user_info_from_naver
 
 load_dotenv()
 
@@ -23,40 +23,17 @@ def check_nickname(nickname: str = Query(...), db: Session = Depends(get_db)):
         return {"available": False}
     return {"available": True}
 
-@router.post("/signup") # 이메일, 이름, nickname... 등 기본적인 signup request를 받아서 인증 메일 보내고 알려줌.
+@router.post("/signup")  # 회원가입 (닉네임 중복체크, 메일 인증 + 중복 체크는 이미 다 되어 있어야 함. 무조건)
 def signup(user_data: SignupRequest, db: Session = Depends(get_db)):
-    if db.query(User).filter(User.email == user_data.email).first():
-        raise HTTPException(status_code=400, detail="email already exists")
-    if db.query(User).filter(User.nickname == user_data.nickname).first():
-        raise HTTPException(status_code=400, detail="nickname already exists")
-    
-    vertification_code = generate_code()
-    redis_value = user_data.model_dump()
-    redis_value["code"] = vertification_code
-    r.setex(f"verify:{user_data.email}", 600, json.dumps(redis_value))
-    send_verification_email(user_data.email, vertification_code)
-    return { "message" : "Vertification code sent" }
-    
-@router.post("/vertify") # 인증 코드 받아서 확인되면 아까 입력된 정보로 User 만들고 new User의 id 반환
-def vertify_email(request: VertifyRequest, db: Session = Depends(get_db)):
-    code = request.code
-    email = request.email
-    value = r.get(f"verify:{email}")
-    if not value:
-        raise HTTPException(status_code=400, detail="Signup info expired or not found")
-    
-    user_data = json.loads(value)
-    if user_data["code"] != code:
-        raise HTTPException(status_code=400, detail="Wrong vertification code")
-    
+
     new_user = User(
-        email=user_data["email"],
-        name=user_data["name"],
+        email=user_data.email,
+        name=user_data.name,
         imageURL=None,
-        nickname=user_data["nickname"],
-        password=get_password_hash(user_data["password"]),
-        birthday=user_data["birthday"],
-        gender=user_data["gender"],
+        nickname=user_data.nickname,
+        password=get_password_hash(user_data.password),
+        birthday=user_data.birthday,
+        gender=user_data.gender,
         auth_type="email"
     )
 
@@ -64,8 +41,37 @@ def vertify_email(request: VertifyRequest, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_user)
 
-    r.delete(f"verify:{email}")
     return SignupResponse("회원가입 성공", new_user.id)
+    
+@router.post("/vertify/signup")  # signup을 위해 이메일 인증
+def vertify_signup(email: str = Body(...), db: Session = Depends(get_db)):
+    user = db.querty(User).filter(User.email == email).first()
+    if user:
+        raise HTTPException(status_code=404, detail="email already exists")
+    return vertify_email(email)
+
+@router.post("/vertify/lost") # 비번 초기화를 위해 이메일 인증
+def vertify_lost(email: str = Body(...), db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.email == email).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return vertify_email(email)
+
+@router.post("/vertify/check")  # 인증 코드 검사
+def vertify_email_check(request: VertifyRequest):
+    email = request.email
+    code = request.code
+
+    value = r.get(f"verify:{email}")
+    if not value:
+        raise HTTPException(status_code=400, detail="Verification expired or not found")
+
+    data = json.loads(value)
+    if data["code"] != code:
+        raise HTTPException(status_code=400, detail="Wrong verification code")
+
+    r.delete(f"verify:{email}")
+    return {"message": "Verified"}
 
 @router.post("/login", response_model=LoginResponse) # 그냥 메일로 로그인, token 반환
 def login(login_data: LoginRequest, db: Session = Depends(get_db)):
@@ -83,8 +89,6 @@ def oauth_signup(user_data: SignupRequest, db: Session = Depends(get_db)):
 
     if db.query(User).filter(User.email == user_data.email).first():
         raise HTTPException(status_code=400, detail="email already exists")
-    if db.query(User).filter(User.nickname == user_data.nickname).first():
-        raise HTTPException(status_code=400, detail="nickname already exists")
     
     new_user = User(
         email=user_data.email,
@@ -99,7 +103,7 @@ def oauth_signup(user_data: SignupRequest, db: Session = Depends(get_db)):
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-    
+
     return SignupResponse("회원가입 성공", new_user.id)
 
 @router.post("/login/oauth") # oauth 연동해서 로그인, 성공 여부와 함께 마찬가지로 token 반환 (false면 front에서 oauth 기반 회원가입 창으로 넘어감)
@@ -124,36 +128,17 @@ def oauth_login(request: OAuthLoginRequest, db: Session = Depends(get_db)):
     token = create_jwt_token(user.id)
     return OAuthLoginResponse(True, token = token, token_type = "bearer")
 
-@router.post("/lost-password") # 비번 잃어버려서 메일을 받은 다음, 메일로 인증 코드 보내고 알려줌
-def lost_password(email: str = Body(...), db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.email == email).first()
+
+@router.post("/reset-password") # 새 비번, 새 비번 확인 받아서 변경해 줌
+def reset_password(request: PasswordResetRequest, db: Session = Depends(get_db)):
+    if request.new_password != request.new_password_check:
+        raise HTTPException(status_code=400, detail="Passwords do not match")
+    
+    user = db.query(User).filter(User.email == request.email).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
 
-    vertification_code = generate_code()
-    r.setex(f"reset:{email}", 600, vertification_code)
-
-    send_verification_email(email, vertification_code)
-    return {"message": "Reset code sent"}
-
-@router.post("/vertify-reset-code") # 비번 잃어버린 뒤 인증 코드 받고, 인증해 준 뒤 결과 반환
-def verify_reset_code(request: PasswordResetCodeRequest):
-    stored_code = r.get(f"reset:{request.email}")
-    if not stored_code:
-        raise HTTPException(status_code=400, detail="Invalid or expired code")
-    
-    if stored_code != request.code:
-        raise HTTPException(status_code=400, detail="Wrong vertification code")
-    
-    r.delete(f"reset:{request.email}")
-    return {"message": "Code verified"}
-
-@router.post("/reset-password") # 새 비번, 새 비번 확인 받아서 변경해 줌
-def reset_password(request: PasswordResetRequest, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    if request.new_password != request.new_password_check:
-        raise HTTPException(status_code=400, detail="Passwords do not match")
-
-    current_user.password = get_password_hash(request.new_password)
+    user.password = get_password_hash(request.new_password)
     db.commit()
     return {"message": "Password reset successful"}
 

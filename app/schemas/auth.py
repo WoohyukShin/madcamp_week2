@@ -48,10 +48,6 @@ class PasswordChangeRequest(BaseModel):
     new_password: str
 
 class PasswordResetRequest(BaseModel):
+    email: EmailStr
     new_password: str
     new_password_check: str
-
-class PasswordResetCodeRequest(BaseModel):
-    email: EmailStr
-    code: str
-

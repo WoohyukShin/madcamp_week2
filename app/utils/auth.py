@@ -1,4 +1,5 @@
 import os
+import json
 import redis
 import requests
 import random, string
@@ -18,6 +19,15 @@ from sendgrid.helpers.mail import Mail
 load_dotenv()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 r = redis.Redis(host="localhost", port=6379, decode_responses=True)
+
+def vertify_email(email: str):
+    verification_code = generate_code()
+
+    data = {"code": verification_code}
+    r.setex(f"verify:{email}", 600, json.dumps(data))
+    send_verification_email(email, verification_code)
+
+    return {"message": "Verification code sent"}
 
 def generate_code(length: int = 6) -> str: # 메일 인증 코드 생성 (숫자 6자리 string)
     return ''.join(random.choices(string.digits, k=length))
