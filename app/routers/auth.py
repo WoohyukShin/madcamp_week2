@@ -10,12 +10,11 @@ from app.schemas import *
 from app.utils.auth import verify_email, get_password_hash, verify_password, create_jwt_token, get_current_user, get_user_info_from_facebook, get_user_info_from_kakao, get_user_info_from_naver
 
 load_dotenv()
-
+router = APIRouter(prefix="/auth")
 r = redis.from_url(
     os.getenv("REDIS_URL"),
     decode_responses=True
 )
-router = APIRouter(prefix="/auth")
 
 @router.get("/check-nickname") # 중복확인 눌렀을 때 닉네임 중복 체크
 def check_nickname(nickname: str = Query(...), db: Session = Depends(get_db)):
