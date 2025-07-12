@@ -58,7 +58,7 @@ def verify_lost(email: str = Body(...), db: Session = Depends(get_db)):
     return verify_email(email)
 
 @router.post("/verify/check")  # 인증 코드 검사
-def verify_email_check(request: verifyRequest):
+def verify_email_check(request: VerifyRequest):
     email = request.email
     code = request.code
 
