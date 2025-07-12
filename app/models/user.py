@@ -32,6 +32,6 @@ class User(Base):
         back_populates="following"
     )
     feeds = relationship("Feed", back_populates = "user")
-    comments = relationship("Comment", back_popualates = "user")
+    comments = relationship("Comment", back_populates = "user")
     feed_like = relationship("FeedLike", back_populates = "liked_user")
     feed_save = relationship("FeedSave", back_populates = "saved_user")
