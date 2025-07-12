@@ -9,3 +9,4 @@ redis
 sendgrid
 passlib
 bcrypt
+psycopg2-binary
