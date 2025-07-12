@@ -77,27 +77,18 @@ def login(login_data: LoginRequest, db: Session = Depends(get_db)):
     return LoginResponse(success = True, access_token=token, token_type="bearer")
 
 @router.post("/signup/oauth") # oauth login fail -> 회원가입 창에서 new signup request를 받았을 때
-def oauth_signup(user_data: OAuthSignupRequest, db: Session = Depends(get_db)):
-    if user_data.auth_type == "naver":
-        user_info = get_user_info_from_naver(user_data.code)
-    elif user_data.auth_type == "kakao":
-        user_info = get_user_info_from_kakao(user_data.code)
-    elif user_data.auth_type == "facebook":
-        user_info = get_user_info_from_facebook(user_data.code)
-    else:
+def oauth_signup(user_data: SignupRequest, db: Session = Depends(get_db)):
+    if user_data.auth_type not in {"naver", "kakao", "facebook"}:
         raise HTTPException(status_code=400, detail="Unsupported auth_type")
 
-    email = user_info["email"]
-    name = user_info["name"]
-
-    if db.query(User).filter(User.email == email).first():
+    if db.query(User).filter(User.email == user_data.email).first():
         raise HTTPException(status_code=400, detail="email already exists")
     if db.query(User).filter(User.nickname == user_data.nickname).first():
         raise HTTPException(status_code=400, detail="nickname already exists")
     
     new_user = User(
-        email=email,
-        name=name,
+        email=user_data.email,
+        name=user_data.name,
         imageURL=None,
         nickname=user_data.nickname,
         password=None,
@@ -108,7 +99,7 @@ def oauth_signup(user_data: OAuthSignupRequest, db: Session = Depends(get_db)):
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-
+    
     return SignupResponse("회원가입 성공", new_user.id)
 
 @router.post("/login/oauth") # oauth 연동해서 로그인, 성공 여부와 함께 마찬가지로 token 반환 (false면 front에서 oauth 기반 회원가입 창으로 넘어감)

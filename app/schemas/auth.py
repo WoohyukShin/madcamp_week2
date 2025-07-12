@@ -9,6 +9,8 @@ class SignupRequest(BaseModel):
     password: str
     birthday: Optional[datetime] = None
     gender: Optional[str] = None
+    code: Optional[str] = None # naver 등 연동 시 코드
+    auth_type: Optional[str] = None # "naver", "kakao", "facebook"
 
 class VertifyRequest(BaseModel):
     email: EmailStr
@@ -53,10 +55,3 @@ class PasswordResetCodeRequest(BaseModel):
     email: EmailStr
     code: str
 
-class OAuthSignupRequest(BaseModel):
-    code: str
-    nickname: str
-    password: str
-    birthday: Optional[datetime] = None
-    gender: Optional[str] = None
-    auth_type: Literal["naver", "kakao", "facebook"]
