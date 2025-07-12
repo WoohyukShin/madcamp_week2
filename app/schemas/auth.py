@@ -12,7 +12,7 @@ class SignupRequest(BaseModel):
     code: Optional[str] = None # naver 등 연동 시 코드
     auth_type: Optional[str] = None # "naver", "kakao", "facebook"
 
-class VertifyRequest(BaseModel):
+class VerifyRequest(BaseModel):
     email: EmailStr
     code: str
 

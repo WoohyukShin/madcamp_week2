@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from app.db.db import get_db
 from app.models.user import User
 from app.schemas import *
-from app.utils.auth import vertify_email, get_password_hash, verify_password, create_jwt_token, get_current_user, get_user_info_from_facebook, get_user_info_from_kakao, get_user_info_from_naver
+from app.utils.auth import verify_email, get_password_hash, verify_password, create_jwt_token, get_current_user, get_user_info_from_facebook, get_user_info_from_kakao, get_user_info_from_naver
 
 load_dotenv()
 
@@ -43,22 +43,22 @@ def signup(user_data: SignupRequest, db: Session = Depends(get_db)):
 
     return SignupResponse("회원가입 성공", new_user.id)
     
-@router.post("/vertify/signup")  # signup을 위해 이메일 인증
-def vertify_signup(email: str = Body(...), db: Session = Depends(get_db)):
+@router.post("/verify/signup")  # signup을 위해 이메일 인증
+def verify_signup(email: str = Body(...), db: Session = Depends(get_db)):
     user = db.querty(User).filter(User.email == email).first()
     if user:
         raise HTTPException(status_code=404, detail="email already exists")
-    return vertify_email(email)
+    return verify_email(email)
 
-@router.post("/vertify/lost") # 비번 초기화를 위해 이메일 인증
-def vertify_lost(email: str = Body(...), db: Session = Depends(get_db)):
+@router.post("/verify/lost") # 비번 초기화를 위해 이메일 인증
+def verify_lost(email: str = Body(...), db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == email).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
-    return vertify_email(email)
+    return verify_email(email)
 
-@router.post("/vertify/check")  # 인증 코드 검사
-def vertify_email_check(request: VertifyRequest):
+@router.post("/verify/check")  # 인증 코드 검사
+def verify_email_check(request: verifyRequest):
     email = request.email
     code = request.code
 

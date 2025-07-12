@@ -20,7 +20,7 @@ load_dotenv()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 r = redis.Redis(host="localhost", port=6379, decode_responses=True)
 
-def vertify_email(email: str):
+def verify_email(email: str):
     verification_code = generate_code()
 
     data = {"code": verification_code}

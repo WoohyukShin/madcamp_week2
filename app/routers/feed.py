@@ -16,9 +16,8 @@ from app.utils.feed import build_comment_response
 router = APIRouter(prefix="/feed")
 
 @router.get("/feeds") # 몇 번째 요청인지에 따라서 Feed 반환해 주는 함수
-def get_feeds(page: int=Query(1, ge=1), db: Session = Depends(get_db), user:User=Depends(get_current_user), 
+def get_feeds(page: int=Query(..., ge=1), limit: int = Query(...), db: Session = Depends(get_db), user:User=Depends(get_current_user), 
               response_model = List[FeedResponse]):
-    limit = 10
     offset = (page - 1) * limit
     following = [u.id for u in user.following]
     feeds: List[Feed] = (
