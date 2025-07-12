@@ -45,7 +45,7 @@ def signup(user_data: SignupRequest, db: Session = Depends(get_db)):
     
 @router.post("/verify/signup")  # signup을 위해 이메일 인증
 def verify_signup(email: str = EmailRequest, db: Session = Depends(get_db)):
-    user = db.querty(User).filter(User.email == email).first()
+    user = db.query(User).filter(User.email == email).first()
     if user:
         raise HTTPException(status_code=404, detail="email already exists")
     return verify_email(email)
