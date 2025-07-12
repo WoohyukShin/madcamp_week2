@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Depends, HTTPException, Body
-from sqlalchemy.orm import Session
+import os
 import json
 import redis
+from fastapi import APIRouter, Depends, HTTPException, Body
+from sqlalchemy.orm import Session
 from dotenv import load_dotenv
 from app.db.db import get_db
 from app.models.user import User
