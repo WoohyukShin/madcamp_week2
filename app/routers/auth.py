@@ -12,10 +12,8 @@ from app.utils.auth import generate_code, send_verification_email, get_password_
 
 load_dotenv()
 
-r = redis.Redis(
-    host=os.getenv("REDIS_HOST"),
-    port=int(os.getenv("REDIS_PORT", 6379)),
-    password=os.getenv("REDIS_PASSWORD"),
+r = redis.from_url(
+    os.getenv("REDIS_URL"),
     decode_responses=True
 )
 router = APIRouter(prefix="/auth")
