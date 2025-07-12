@@ -11,7 +11,12 @@ from app.utils.auth import generate_code, send_verification_email, get_password_
 
 load_dotenv()
 
-r = redis.Redis(host="localhost", port=6379, decode_responses=True)
+r = redis.Redis(
+    host=os.getenv("REDIS_HOST"),
+    port=int(os.getenv("REDIS_PORT", 6379)),
+    password=os.getenv("REDIS_PASSWORD"),
+    decode_responses=True
+)
 router = APIRouter(prefix="/auth")
 
 @router.post("/signup") # 이메일, 이름, nickname... 등 기본적인 signup request를 받아서 인증 메일 보내고 알려줌.
