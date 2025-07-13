@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from app.db.db import get_db
 from app.models.user import User
 from app.schemas import *
-from app.utils.auth import verify_email, get_password_hash, verify_password, create_jwt_token, get_current_user, get_user_info_from_facebook, get_user_info_from_kakao, get_user_info_from_naver
+from app.utils.auth import verify_email, get_password_hash, verify_password, create_jwt_token, get_current_user, get_user_info_from_facebook, get_user_info_from_naver
 
 load_dotenv()
 router = APIRouter(prefix="/auth")
