@@ -12,6 +12,7 @@ from app.utils.auth import get_current_user
 from app.utils.image import save_image, delete_image
 from app.utils.feed import build_comment_response
 
+
 router = APIRouter(prefix="/feed")
 
 @router.get("/feeds") # 몇 번째 요청인지에 따라서 Feed 반환해 주는 함수
@@ -19,6 +20,7 @@ def get_feeds(page: int=Query(..., ge=1), limit: int = Query(...), db: Session =
               response_model = List[FeedResponse]):
     offset = (page - 1) * limit
     following = [u.id for u in user.following]
+    following.append(user.id)
     feeds: List[Feed] = (
         db.query(Feed).filter(Feed.user_id.in_(following))
         .order_by(Feed.created_at.desc()).offset(offset).limit(limit).all()
@@ -84,6 +86,7 @@ def get_my_feeds(page: int = Query(1, ge=1),db: Session = Depends(get_db),user: 
 @router.post("") # 피드 작성
 def create_feed(content: str = Form(...),images: List[UploadFile] = File([]),
                 db: Session = Depends(get_db),user: User = Depends(get_current_user)):
+
     feed = Feed(
         user_id=user.id,
         content=content,

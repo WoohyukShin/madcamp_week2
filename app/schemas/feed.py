@@ -5,7 +5,7 @@ from pydantic import BaseModel, EmailStr
 
 class FeedImageResponse(BaseModel):
     id: int
-    imageURL: int
+    imageURL: str
 
 class CommentResponse(BaseModel):
     id: int

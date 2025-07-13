@@ -26,7 +26,6 @@ def save_image(file: UploadFile, folder_name: str) -> str:
         filename,
         ExtraArgs={
             "ContentType": file.content_type,
-            "ACL": "public-read"
         }
     )
 

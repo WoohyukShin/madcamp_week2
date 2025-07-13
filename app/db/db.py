@@ -5,8 +5,8 @@ from sqlalchemy.orm import sessionmaker
 
 # 로컬로 돌릴 때 그냥 이것만 수정
 
-# SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
-SQLALCHEMY_DATABASE_URL = "sqlite:///./local.db"
+SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
+# SQLALCHEMY_DATABASE_URL = "sqlite:///./local.db"
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL,

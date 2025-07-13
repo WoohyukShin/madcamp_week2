@@ -1,6 +1,7 @@
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 from app.models.user import User
+from app.models.feed import Feed
 from app.db.db import SessionLocal
 from app.utils.auth import get_password_hash
 
