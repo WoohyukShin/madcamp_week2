@@ -121,14 +121,11 @@ def get_user_info_from_kakao(code: str):
     if user_response.status_code != 200:
         raise HTTPException(status_code=400, detail="카카오 사용자 정보 조회 실패")
 
-    kakao_account = user_response.json().get("kakao_account")
-
-    email = kakao_account.get("email")
-    name = kakao_account.get("profile", {}).get("nickname")
-
+    id  = user_response.json().get("id")
+    email = f"{id}@kakao.com"
     return {
         "email": email,
-        "name": name,
+        "name": "",
     }
 
 def get_user_info_from_naver(code: str, state: str = "안녕하세용?"):

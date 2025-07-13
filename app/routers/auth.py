@@ -119,6 +119,7 @@ def oauth_login(request: OAuthLoginRequest, db: Session = Depends(get_db)):
 
     email = user_info["email"]
     name = user_info["name"]
+
     user: User = db.query(User).filter(User.email == email).first()
     if not user:
         return OAuthLoginResponse(False, email = email, name = name)
