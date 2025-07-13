@@ -94,7 +94,7 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
 
     return user
 
-
+'''
 def get_user_info_from_kakao(code: str):
     token_url = "https://kauth.kakao.com/oauth/token"
     token_data = {
@@ -127,6 +127,7 @@ def get_user_info_from_kakao(code: str):
         "email": email,
         "name": "",
     }
+'''
 
 def get_user_info_from_naver(code: str, state: str = "안녕하세용?"):
     token_url = "https://nid.naver.com/oauth2.0/token"

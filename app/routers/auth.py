@@ -111,14 +111,16 @@ def oauth_login(request: OAuthLoginRequest, db: Session = Depends(get_db)):
     if auth_type == "naver":
         user_info = get_user_info_from_naver(code)
     elif auth_type == "kakao":
-        user_info = get_user_info_from_kakao(code)
+        email = f"{code}@kakao.com"
+        name = ""
     elif auth_type == "facebook":
         user_info = get_user_info_from_facebook(code)
     else:
         raise HTTPException(status_code=400, detail="Unsupported auth_type")
-
-    email = user_info["email"]
-    name = user_info["name"]
+    
+    if auth_type != "kakao":
+        email = user_info["email"]
+        name = user_info["name"]
 
     user: User = db.query(User).filter(User.email == email).first()
     if not user:
