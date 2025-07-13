@@ -124,10 +124,10 @@ def oauth_login(request: OAuthLoginRequest, db: Session = Depends(get_db)):
 
     user: User = db.query(User).filter(User.email == email).first()
     if not user:
-        return OAuthLoginResponse(False, email = email, name = name)
+        return OAuthLoginResponse(exists=False, email = email, name = name)
     
     token = create_jwt_token(user.id)
-    return OAuthLoginResponse(True, token = token, token_type = "bearer")
+    return OAuthLoginResponse(exists=True, token=token, token_type="bearer")
 
 
 @router.post("/reset-password") # 새 비번, 새 비번 확인 받아서 변경해 줌
