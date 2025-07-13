@@ -11,10 +11,7 @@ from app.utils.auth import verify_email, get_password_hash, verify_password, cre
 
 load_dotenv()
 router = APIRouter(prefix="/auth")
-r = redis.from_url(
-    os.getenv("REDIS_URL"),
-    decode_responses=True
-)
+r = redis.from_url(os.getenv("REDIS_URL"), decode_responses=True)
 
 @router.get("/check-nickname") # 중복확인 눌렀을 때 닉네임 중복 체크
 def check_nickname(nickname: str = Query(...), db: Session = Depends(get_db)):
