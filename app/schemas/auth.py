@@ -24,7 +24,8 @@ class LoginRequest(BaseModel):
     password: str
 
 class OAuthLoginRequest(BaseModel):
-    code: str
+    code: Optional[str] = None
+    email: Optional[EmailStr] = None
     auth_type: Literal["naver", "kakao", "facebook"]
 
 class LoginResponse(BaseModel):

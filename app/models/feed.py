@@ -1,6 +1,7 @@
 from app.db.db import Base
 from sqlalchemy import String, Column, Integer, Text, DateTime, ForeignKey
 from sqlalchemy.orm import relationship, backref
+from pgvector.sqlalchemy import Vector
 
 class Feed(Base):
     __tablename__ = "Feed"
@@ -26,6 +27,7 @@ class FeedImage(Base):
     imageURL = Column(String)
 
     feed = relationship("Feed", back_populates = "images")
+    embedding = relationship("ImageEmbedding", back_populates="image")
 
 class Comment(Base):
     __tablename__ = "Comment"
@@ -42,8 +44,17 @@ class Comment(Base):
     
     feed = relationship("Feed", back_populates = "comments", passive_deletes = True)
     user = relationship("User", back_populates = "comments", passive_deletes = True)
+    comment_like = relationship("CommentLike", back_populates = "comment", passive_deletes = True)
     replies = relationship(
         "Comment",
         backref=backref("parent", remote_side=[id]),
         cascade="all, delete-orphan"
     )
+
+class ImageEmbedding(Base):
+    __tablename__ = "ImageEmbedding"
+    id = Column(Integer, primary_key = True, index = True)
+    image_id = Column(Integer, ForeignKey("FeedImage.id", ondelete = "CASCADE"))
+    embedding = Column(Vector(512), nullable=True)
+    
+    image = relationship("FeedImage", back_populates="embedding")

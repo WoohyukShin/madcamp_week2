@@ -35,3 +35,5 @@ class User(Base):
     comments = relationship("Comment", back_populates = "user")
     feed_like = relationship("FeedLike", back_populates = "liked_user")
     feed_save = relationship("FeedSave", back_populates = "saved_user")
+    # products = relationship("Product", back_populates="user")
+    # product_save = relationship("ProductSave", back_populates = "saved_user")

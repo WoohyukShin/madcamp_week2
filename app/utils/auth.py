@@ -61,7 +61,7 @@ def send_verification_email(email: str, verification_code: str):
 
 SECRET_KEY = "asdfasdfasdf"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 365 * 10
 
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
@@ -129,6 +129,7 @@ def get_user_info_from_kakao(code: str):
     }
 '''
 
+'''
 def get_user_info_from_naver(code: str, state: str = "안녕하세용?"):
     token_url = "https://nid.naver.com/oauth2.0/token"
     token_params = {
@@ -162,6 +163,7 @@ def get_user_info_from_naver(code: str, state: str = "안녕하세용?"):
         "email": email,
         "name": name,
     }
+'''
 
 def get_user_info_from_facebook(code: str):
     token_url = "https://graph.facebook.com/v18.0/oauth/access_token"

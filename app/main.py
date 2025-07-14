@@ -1,10 +1,12 @@
 import sqlite3
+from app.db.init_db import init_db
 from fastapi import Request
 from fastapi import FastAPI
 from app.routers import auth, user, feed, comment
 from app.init_dummy_data import init_dummy_data
 from starlette.responses import Response
 
+init_db()
 conn = sqlite3.connect("local.db")
 cursor = conn.cursor()
 

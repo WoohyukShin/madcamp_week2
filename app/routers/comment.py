@@ -27,7 +27,7 @@ def like_comment(comment_id: int, db: Session = Depends(get_db), user: User = De
         action = "liked"
 
     db.commit()
-    return {"message": f"Comment {action}", "likes": comment.likes}
+    return {"is_liked": action == "liked", "likes": comment.likes}
 
 @router.put("/{comment_id}") # 댓글 수정
 def update_comment(comment_id: int, req: CommentEditRequest, db: Session = Depends(get_db), user: User = Depends(get_current_user)):

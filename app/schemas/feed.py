@@ -10,18 +10,24 @@ class FeedImageResponse(BaseModel):
 class CommentResponse(BaseModel):
     id: int
     user_id: int
+    nickname: str
     content: str
     created_at: datetime
+    likes: int
+    user_likes: bool
     updated_at: datetime
     replies: List[CommentResponse] = []
 
 class FeedResponse(BaseModel):
     id: int
     user_id: int
+    nickname: str
     content: str
     created_at: datetime 
     likes: int
     saves: int
+    user_likes: bool
+    user_saves: bool
     images: List[FeedImageResponse]
     comments: List[CommentResponse]
 

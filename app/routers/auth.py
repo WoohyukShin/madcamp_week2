@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from app.db.db import get_db
 from app.models.user import User
 from app.schemas import *
-from app.utils.auth import verify_email, get_password_hash, verify_password, create_jwt_token, get_current_user, get_user_info_from_facebook, get_user_info_from_naver
+from app.utils.auth import verify_email, get_password_hash, verify_password, create_jwt_token, get_current_user, get_user_info_from_facebook
 
 load_dotenv()
 router = APIRouter(prefix="/auth")
@@ -107,9 +107,10 @@ def oauth_signup(user_data: SignupRequest, db: Session = Depends(get_db)):
 @router.post("/login/oauth") # oauth 연동해서 로그인, 성공 여부와 함께 마찬가지로 token 반환 (false면 front에서 oauth 기반 회원가입 창으로 넘어감)
 def oauth_login(request: OAuthLoginRequest, db: Session = Depends(get_db)):
     code = request.code
-    auth_type = request.auth_type
+    auth_type = request.auth_type 
     if auth_type == "naver":
-        user_info = get_user_info_from_naver(code)
+        email = request.email
+        name = ""
     elif auth_type == "kakao":
         email = f"{code}@kakao.com"
         name = ""
@@ -118,7 +119,7 @@ def oauth_login(request: OAuthLoginRequest, db: Session = Depends(get_db)):
     else:
         raise HTTPException(status_code=400, detail="Unsupported auth_type")
     
-    if auth_type != "kakao":
+    if auth_type == "facebook":
         email = user_info["email"]
         name = user_info["name"]
 
@@ -127,7 +128,7 @@ def oauth_login(request: OAuthLoginRequest, db: Session = Depends(get_db)):
         return OAuthLoginResponse(exists=False, email = email, name = name)
     
     token = create_jwt_token(user.id)
-    return OAuthLoginResponse(exists=True, token=token, token_type="bearer")
+    return OAuthLoginResponse(exists=True, access_token=token, token_type="bearer")
 
 
 @router.post("/reset-password") # 새 비번, 새 비번 확인 받아서 변경해 줌
@@ -159,4 +160,7 @@ def change_password(request: PasswordChangeRequest, db: Session = Depends(get_db
 
 @router.get("/me", response_model=UserResponse)
 def read_current_user(current_user: User = Depends(get_current_user)):
-    return current_user
+    return UserResponse (
+        id=current_user.id, email=current_user.email, name=current_user.name,
+        imageURL=current_user.imageURL, nickname=current_user.nickname, birthday=current_user.birthday, gender=current_user.gender
+    )

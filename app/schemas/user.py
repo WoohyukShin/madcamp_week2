@@ -8,5 +8,5 @@ class UserResponse(BaseModel):
     name: str
     imageURL: Optional[str] = None
     nickname: str
-    birthday: datetime
-    gender: str
+    birthday: Optional[datetime] = None
+    gender: Optional[str] = None
