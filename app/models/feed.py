@@ -1,7 +1,7 @@
 from app.db.db import Base
 from sqlalchemy import String, Column, Integer, Text, DateTime, ForeignKey
 from sqlalchemy.orm import relationship, backref
-from pgvector.sqlalchemy import Vector
+# from pgvector.sqlalchemy import Vector
 
 class Feed(Base):
     __tablename__ = "Feed"
@@ -27,7 +27,7 @@ class FeedImage(Base):
     imageURL = Column(String)
 
     feed = relationship("Feed", back_populates = "images")
-    embedding = relationship("ImageEmbedding", back_populates="image")
+    # embedding = relationship("ImageEmbedding", back_populates="image")
 
 class Comment(Base):
     __tablename__ = "Comment"
@@ -51,6 +51,7 @@ class Comment(Base):
         cascade="all, delete-orphan"
     )
 
+'''
 class ImageEmbedding(Base):
     __tablename__ = "ImageEmbedding"
     id = Column(Integer, primary_key = True, index = True)
@@ -58,3 +59,4 @@ class ImageEmbedding(Base):
     embedding = Column(Vector(512), nullable=True)
     
     image = relationship("FeedImage", back_populates="embedding")
+'''
