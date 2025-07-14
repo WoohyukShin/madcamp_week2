@@ -162,7 +162,7 @@ def create_feed(content: str = Form(...),images: List[UploadFile] = File([]),
         image_url = save_image(image, "feeds")
         feedimage = FeedImage(feed_id=feed.id, imageURL=image_url)
         db.add(feedimage)
-        db.add(ImageEmbedding(image_id=feedimage.id, embedding=embedding))
+        # db.add(ImageEmbedding(image_id=feedimage.id, embedding=embedding))
 
     db.commit()
     return {"message": "Feed created", "feed_id": feed.id}
@@ -193,7 +193,7 @@ def update_feed(
         image_url = save_image(img, "feeds")
         feedimage = FeedImage(feed_id=feed.id, imageURL=image_url)
         db.add(feedimage)
-        db.add(ImageEmbedding(image_id=feedimage.id, embedding=embedding))
+        # db.add(ImageEmbedding(image_id=feedimage.id, embedding=embedding))
 
     db.commit()
     return { "message": "Feed updated" }
