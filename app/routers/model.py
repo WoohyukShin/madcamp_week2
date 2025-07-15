@@ -31,7 +31,7 @@ async def set_colab_url(req: Request, db: Session = Depends(get_db)):
     for p in products:
         product_vectors.append({
             "id": p.id,
-            "embedding": p.embedding,
+            "embedding": p.embedding_vector,
             "label": p.category
         })
 
@@ -95,11 +95,16 @@ def get_recommendation_from_image(
     db: Session = Depends(get_db),
     user = Depends(get_current_user)
 ):
+    import json
+
     feed_image = db.query(FeedImage).filter(FeedImage.id == image_id).first()
     if not feed_image or feed_image.embedding is None:
         raise HTTPException(status_code=404, detail="Not Found")
 
-    wish_embedding = feed_image.embedding
+    try:
+        wish_embedding = json.loads(feed_image.embedding)  # ✅ FIXED
+    except json.JSONDecodeError:
+        raise HTTPException(status_code=500, detail="Invalid embedding format in DB")
 
     colab_url = r.get("COLAB_SERVER_URL")
     if not colab_url:
@@ -107,13 +112,12 @@ def get_recommendation_from_image(
     colab_url = colab_url.decode("utf-8")
 
     if image:
-        import json
         image.file.seek(0)
         files = {
             "image": (image.filename, image.file, image.content_type)
         }
         data = {
-            "embedding": json.dumps(wish_embedding)
+            "embedding": json.dumps(wish_embedding)  # ✅ FIXED
         }
 
         try:
@@ -122,6 +126,8 @@ def get_recommendation_from_image(
             result = response.json()
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Failed to fetch recommendation from Colab: {e}")
+    else:
+        raise HTTPException(status_code=400, detail="Image file is required")
 
     recommendations = {}
     for label, id_list in result.items():
@@ -131,4 +137,3 @@ def get_recommendation_from_image(
         ]
 
     return recommendations
-
