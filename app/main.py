@@ -1,5 +1,6 @@
 import sqlite3
 from app.db.init_db import init_db
+from app.db.db import Base, engine
 from fastapi import Request
 from fastapi import FastAPI
 from app.routers import auth, user, feed, comment
@@ -15,6 +16,9 @@ app.include_router(auth.router)
 app.include_router(feed.router)
 app.include_router(user.router)
 app.include_router(comment.router)
+
+Base.metadata.drop_all(bind=engine)
+Base.metadata.create_all(bind=engine)
 
 
 @app.on_event("startup")
