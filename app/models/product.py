@@ -10,7 +10,7 @@ class Product(Base):
     user_id = Column(Integer, ForeignKey("User.id", ondelete="CASCADE"), nullable=False)
     name = Column(String, nullable=False) # 상품 이름
     content = Column(String, nullable=True) # 상품 설명
-    # 카테고리 : 침대, 책상, 수납, 의자, 기타 (커튼, 조명, 러그...)
+    # 카테고리 : bed, desk, cabinet, chair, etc
     category = Column(String, default="기타")
     # 가격, 세일된 가격
     price = Column(Integer, nullable=False) # 가격
