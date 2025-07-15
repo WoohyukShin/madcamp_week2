@@ -10,7 +10,6 @@ from app.db.db import get_db
 from app.models import *
 from app.schemas import *
 from app.utils.auth import get_current_user
-from pgvector.sqlalchemy import cosine_similarity
 
 router = APIRouter(prefix="/model")
 r = redis.Redis.from_url(os.getenv("REDIS_URL"))
