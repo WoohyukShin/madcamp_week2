@@ -1,6 +1,5 @@
 from app.db.db import Base
-from sqlalchemy import Column, Integer, Float, String, DateTime, ForeignKey, Boolean
-from pgvector.sqlalchemy import Vector
+from sqlalchemy import Column, Integer, Float, String, DateTime, ForeignKey, Boolean, Text
 from sqlalchemy.orm import relationship
 from datetime import datetime
 
@@ -24,7 +23,7 @@ class Product(Base):
     reviews = Column(Integer, default = 0)
     options = Column(Integer, default = 0)
     # 벡터 임베딩, 품절 여부
-    embedding = Column(Vector(512), nullable=True)  # 메인 이미지의 임베딩
+    embedding = Column(Text, nullable=True)  # 메인 이미지의 임베딩
     is_sold = Column(Boolean, default=False)
 
     user = relationship("User", back_populates="products")
