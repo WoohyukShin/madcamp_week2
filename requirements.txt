@@ -13,3 +13,4 @@ requests
 python-multipart
 boto3
 secure-smtplib
+numpy
