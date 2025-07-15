@@ -6,14 +6,11 @@ from fastapi import FastAPI
 from app.routers import auth, user, feed, comment, product, model
 from app.init_dummy_data import init_dummy_data
 from starlette.responses import Response
-
+'''
 init_db()
 conn = sqlite3.connect("local.db")
 cursor = conn.cursor()
-
-# Base.metadata.drop_all(bind=engine)
-# Base.metadata.create_all(bind=engine)
-
+'''
 app = FastAPI()
 app.include_router(auth.router)
 app.include_router(feed.router)
