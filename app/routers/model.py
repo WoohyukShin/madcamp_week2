@@ -4,7 +4,7 @@ import numpy as np
 from typing import Optional
 from fastapi import APIRouter, Request, Form, UploadFile, File, Depends, HTTPException
 from app.utils.model import get_text_embedding, get_text_embedding_with_rgb, analyze_bad_objects_with_image, analyze_bad_objects_with_text
-from sqlalchemy.orm import Session, func
+from sqlalchemy.orm import Session
 from typing import List
 from app.db.db import get_db
 from app.models import *
@@ -30,6 +30,7 @@ async def set_colab_url(req: Request): # Colab 로컬 서버 다시 열릴 때�
 def get_recommendation_from_text(text: str=Form(...), r:int=Form(...), g:int=Form(...), b:int=Form(...), image: UploadFile = File(),
                                 db: Session=Depends(get_db), user: User=Depends(get_current_user)):
     
+    return None
     style_embedding, color = get_text_embedding_with_rgb(text, r, g, b) # "scandinavian", int, int, int -> 
     prompt = f"{color} colored {text} style "
     bad_objects = analyze_bad_objects_with_text(image=image, prompt=prompt)
@@ -86,6 +87,7 @@ def get_recommendation_from_image(
     db: Session = Depends(get_db),
     user = Depends(get_current_user)
 ):
+    return None
     feed_image = db.query(FeedImage).filter(FeedImage.id == image_id).first()
     if not feed_image or feed_image.embedding is None:
         raise HTTPException(status_code=404, detail="Not Found")
