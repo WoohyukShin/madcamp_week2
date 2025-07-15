@@ -277,7 +277,7 @@ def save_product(product_id: int, quantity: int = Query(1, ge=1),
 
 
 # 여기부터는 내가 안 함 ...
-
+'''
 @router.get("/product/saved", response_model=List[ProductSavedResponse])
 def get_saved_products(
     page: int = Query(..., ge=1),
@@ -322,7 +322,7 @@ def get_saved_products(
         ))
 
     return response
-
+'''
 @router.put("/product/saved/{product_save_id}")
 def update_product_quantity(
     product_save_id: int,
@@ -479,6 +479,7 @@ def delete_review(
 
     db.commit()
     return {"message": "리뷰 삭제 완료"}
+
 
 @router.get("/product/{product_id}/reviews", response_model=List[ReviewResponse])
 def get_reviews_for_product(
