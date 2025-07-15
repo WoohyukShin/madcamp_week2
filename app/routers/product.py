@@ -258,7 +258,7 @@ def save_product(product_id: int, quantity: int = Query(1, ge=1),
     ).first()
 
     price = product.price
-    if product.saled_price:
+    if product.saled_price: 
         price = product.saled_price
 
     if already_saved:
