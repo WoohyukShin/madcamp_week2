@@ -11,8 +11,6 @@ from app.schemas import *
 from app.utils.auth import get_current_user
 from app.utils.image import save_image, delete_image
 from app.utils.feed import build_comment_response
-from app.utils.model import get_image_embedding
-
 
 router = APIRouter(prefix="/feed")
 
@@ -30,6 +28,7 @@ def get_feeds(page: int=Query(..., ge=1), limit: int = Query(...), db: Session =
         response.append(FeedResponse(
             id=feed.id,
             user_id=feed.user.id,
+            user_profile=feed.user.imageURL,
             nickname=feed.user.nickname,
             content=feed.content,
             created_at=feed.created_at,
@@ -86,6 +85,7 @@ def get_my_feeds(page: int = Query(1, ge=1), limit: int=Query(...), db: Session 
             id=feed.id,
             user_id=feed.user.id,
             nickname=feed.user.nickname,
+            user_profile=feed.user.imageURL,
             content=feed.content,
             created_at=feed.created_at,
             likes=feed.likes,
@@ -124,6 +124,7 @@ def get_saved_feeds(page: int=Query(..., ge=1), limit: int = Query(...), db: Ses
             id=feed.id,
             user_id=feed.user.id,
             nickname=feed.user.nickname,
+            user_profile=feed.user.imageURL,
             content=feed.content,
             created_at=feed.created_at,
             likes=feed.likes,
@@ -158,11 +159,9 @@ def create_feed(content: str = Form(...),images: List[UploadFile] = File([]),
     db.refresh(feed)
 
     for image in images:
-        embedding = get_image_embedding(image) # 혹시나 잘못되면 일단 이거 추가해서 잘못된 거일 수도?
         image_url = save_image(image, "feeds")
         feedimage = FeedImage(feed_id=feed.id, imageURL=image_url)
         db.add(feedimage)
-        # db.add(ImageEmbedding(image_id=feedimage.id, embedding=embedding))
 
     db.commit()
     return {"message": "Feed created", "feed_id": feed.id}
@@ -189,11 +188,9 @@ def update_feed(
             delete_image(imageURL, "feeds")
 
     for img in new_images:
-        embedding = get_image_embedding(img)
         image_url = save_image(img, "feeds")
         feedimage = FeedImage(feed_id=feed.id, imageURL=image_url)
         db.add(feedimage)
-        # db.add(ImageEmbedding(image_id=feedimage.id, embedding=embedding))
 
     db.commit()
     return { "message": "Feed updated" }

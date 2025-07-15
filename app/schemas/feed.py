@@ -10,6 +10,7 @@ class FeedImageResponse(BaseModel):
 class CommentResponse(BaseModel):
     id: int
     user_id: int
+    user_profile: Optional[str] = None
     nickname: str
     content: str
     created_at: datetime
@@ -21,6 +22,7 @@ class CommentResponse(BaseModel):
 class FeedResponse(BaseModel):
     id: int
     user_id: int
+    user_profile: Optional[str] = None
     nickname: str
     content: str
     created_at: datetime 

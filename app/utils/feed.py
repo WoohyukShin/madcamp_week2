@@ -5,6 +5,7 @@ def build_comment_response(comment: Comment, user_id: int) -> CommentResponse:
     return CommentResponse(
         id=comment.id,
         user_id=comment.user.id,
+        user_profile=comment.user.imageURL,
         nickname=comment.user.nickname,
         content=comment.content,
         created_at=comment.created_at,

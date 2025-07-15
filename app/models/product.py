@@ -1,4 +1,3 @@
-'''
 from app.db.db import Base
 from sqlalchemy import Column, Integer, Float, String, DateTime, ForeignKey, Boolean
 from pgvector.sqlalchemy import Vector
@@ -10,27 +9,40 @@ class Product(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("User.id", ondelete="CASCADE"), nullable=False)
-    name = Column(String, nullable=False)
+    name = Column(String, nullable=False) # 상품 이름
     content = Column(String, nullable=True) # 상품 설명
-
+    # 카테고리 : 침대, 책상, 수납, 의자, 기타 (커튼, 조명, 러그...)
+    category = Column(String, default="기타")
+    # 가격, 세일된 가격
     price = Column(Integer, nullable=False) # 가격
-    saled_price = Column(Integer, nullable=True) # 세일된 가격
-
-
-    imageURL = Column(String, nullable=True)
+    saled_price = Column(Integer, nullable=True, default = 0)
+    # 상품 이미지, created_at
     created_at = Column(DateTime, default=datetime.utcnow)
+    # 찜, 장바구니, 리뷰, 옵션 개수
     saves = Column(Integer, default = 0)
     likes = Column(Integer, default = 0)
-
-    embedding = Column(Vector(512), nullable=True)  # CLIP 등과 연동 가능한 vector 타입?
+    reviews = Column(Integer, default = 0)
+    options = Column(Integer, default = 0)
+    # 벡터 임베딩, 품절 여부
+    embedding = Column(Vector(512), nullable=True)  # 메인 이미지의 임베딩
     is_sold = Column(Boolean, default=False)
 
     user = relationship("User", back_populates="products")
     product_save = relationship("ProductSave", back_populates="product")
     product_like = relationship("ProductLike", back_populates="product")
-    options = relationship("Option", back_populates="product")
-    reviews = relationship("Review", back_populates="product")
+    product_review = relationship("Review", back_populates="product")
+    product_option = relationship("Option", back_populates="product")
+    images = relationship("ProductImage", back_populates = "product")
 
+class ProductImage(Base):
+    __tablename__ = "ProductImage"
+
+    id = Column(Integer, primary_key = True, index = True)
+    product_id = Column(Integer, ForeignKey("Product.id", ondelete = "CASCADE"))
+    imageURL = Column(String)
+    is_main = Column(Boolean) # 메인 이미지만 임베딩할 예정? 이거 어떻게 하지
+
+    product = relationship("Product", back_populates = "images")
 
 class Review(Base):
     __tablename__ = "Review"
@@ -39,29 +51,34 @@ class Review(Base):
     product_id = Column(Integer, ForeignKey("Product.id", ondelete="CASCADE"), nullable=False)
     user_id = Column(Integer, ForeignKey("User.id", ondelete="CASCADE"), nullable=False)
     rating = Column(Integer, nullable=False)  # 1~5점 정수
-    content = Column(str, nullable=True) # 리뷰
+    content = Column(String, nullable=True) # 리뷰글
     created_at = Column(DateTime, default=datetime.utcnow)
 
-    product = relationship("Product", back_populates="reviews")
-    user = relationship("User")
+    product = relationship("Product", back_populates="product_review")
+    images = relationship("ReviewImage", back_populates = "review")
+
+class ReviewImage(Base):
+    __tablename__ = "ReviewImage"
+
+    id = Column(Integer, primary_key = True, index = True)
+    review_id = Column(Integer, ForeignKey("Review.id", ondelete = "CASCADE"))
+    imageURL = Column(String)
+
+    review = relationship("Review", back_populates = "images")
 
 class Option(Base):
     __tablename__ = "Option"
     id = Column(Integer, primary_key=True, index=True)
     product_id = Column(Integer, ForeignKey("Product.id", ondelete="CASCADE"))
-    name = Column(String, nullable=False)  # 예: "색상", "사이즈"
-    value = Column(String, nullable=False)  # 예: "Red", "Large"
+    name = Column(String, nullable=False) # "색상", "사이즈"
 
-    product = relationship("Product", back_populates="options")
+    product = relationship("Product", back_populates="product_option")
+    details = relationship("OptionDetail", back_populates="option")
 
-class Order(Base):
-    __tablename__ = "Order"
+class OptionDetail(Base):
+    __tablename__ = "OptionDetail"
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("User.id", ondelete="CASCADE"))
-    created_at = Column(DateTime, default=datetime.utcnow)
-    status = Column(String, default="pending")  # 예: pending, paid, canceled
+    option_id = Column(Integer, ForeignKey("Option.id", ondelete="CASCADE"))
+    value = Column(String) # "빨강" "140cm" "Large"
 
-    user = relationship("User", back_populates="orders")
-    items = relationship("OrderItem", back_populates="order", cascade="all, delete-orphan")
-
-'''
+    option = relationship("Option", back_populates="details")
