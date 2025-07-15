@@ -66,3 +66,25 @@ class ProductSavedResponse(BaseModel): # 장바구니 정보
     imageURL: str # 대표 이미지 URL
     is_sold: bool # 품절 여부
     options: Dict[str, str] # ex) {"색상":"화이트", "크기":"L" }
+
+class OrderRequest(BaseModel):
+    id: int
+    product_id: int
+    quantity: int
+    options: str
+
+class OrderItemResponse(BaseModel):
+    id: int
+    product_id: int
+    imageURL: str
+    quantity: int
+    selected_options: str
+    unit_price: int
+
+class OrderResponse(BaseModel):
+    id: int
+    status: str
+    total_price: int
+    created_at: datetime
+    details: List[OrderItemResponse]
+

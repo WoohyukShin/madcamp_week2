@@ -10,7 +10,7 @@ def build_product_summary_response(product: Product, user_id: int) -> ProductSum
         name=product.name,
         price=product.price,
         saled_price=product.saled_price,
-        imageURL=product.imageURL,
+        imageURL=next((img.imageURL for img in product.images if img.is_main), None),
         is_sold=product.is_sold,
         likes=product.likes,
         user_likes=any(l.user_id == user_id for l in product.product_like),

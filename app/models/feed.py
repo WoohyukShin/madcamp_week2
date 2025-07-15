@@ -1,3 +1,4 @@
+import json
 from app.db.db import Base
 from sqlalchemy import String, Column, Integer, Text, DateTime, ForeignKey
 from sqlalchemy.orm import relationship, backref
@@ -27,6 +28,13 @@ class FeedImage(Base):
     embedding = Column(Text, nullable=True)
 
     feed = relationship("Feed", back_populates = "images")
+
+    @property
+    def embedding_vector(self):
+        return json.loads(self.embedding) if self.embedding else None
+    @embedding_vector.setter
+    def embedding_vector(self, vector):
+        self.embedding = json.dumps(vector)
 
 class Comment(Base):
     __tablename__ = "Comment"

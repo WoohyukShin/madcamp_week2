@@ -1,3 +1,4 @@
+import json
 from app.db.db import Base
 from sqlalchemy import Column, Integer, Float, String, DateTime, ForeignKey, Boolean, Text
 from sqlalchemy.orm import relationship
@@ -32,6 +33,14 @@ class Product(Base):
     product_review = relationship("Review", back_populates="product")
     product_option = relationship("Option", back_populates="product")
     images = relationship("ProductImage", back_populates = "product")
+
+    @property
+    def embedding_vector(self):
+        return json.loads(self.embedding) if self.embedding else None
+
+    @embedding_vector.setter
+    def embedding_vector(self, vector):
+        self.embedding = json.dumps(vector)
 
 class ProductImage(Base):
     __tablename__ = "ProductImage"

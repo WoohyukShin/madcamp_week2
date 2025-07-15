@@ -6,3 +6,8 @@ from pydantic import BaseModel, EmailStr
 class RecommendRequest(BaseModel):
     text: Optional[str] = None
     image_id: Optional[int] = None
+
+class ProductVector(BaseModel):
+    id: int
+    embedding: List[float]
+    label: str
