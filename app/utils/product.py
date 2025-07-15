@@ -52,7 +52,8 @@ def build_product_response(product: Product, user_id: int) -> ProductResponse:
             round(sum(r.rating for r in product.product_review) / len(product.product_review), 1)
             if product.product_review else 0.0
         ),
-        options = options_dict
+        options = options_dict,
+        reviews=product.product_review
     )
 
 def build_product_saved_response(product: Product, user_id: int) -> ProductSavedResponse:
