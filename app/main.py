@@ -17,10 +17,6 @@ app.include_router(feed.router)
 app.include_router(user.router)
 app.include_router(comment.router)
 
-Base.metadata.drop_all(bind=engine)
-Base.metadata.create_all(bind=engine)
-
-
 @app.on_event("startup")
 def startup_event():
     init_dummy_data()

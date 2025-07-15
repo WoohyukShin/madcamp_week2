@@ -20,14 +20,14 @@ r = redis.Redis.from_url(os.getenv("REDIS_URL"))
 
 
 @router.get("/products", response_model=List[ProductSummaryResponse])  # 상품 목록 조회 (내가 장바구니에 담은 상품 제외)
-def get_products(page: int = Query(..., ge=1), limit: int = Query(...), content: str = Query(...),
+def get_products(page: int = Query(..., ge=1), limit: int = Query(...), category: str = Query(...),
     db: Session = Depends(get_db), user: User = Depends(get_current_user)):
     offset = (page - 1) * limit
 
     saved_product_ids = db.query(ProductSave.product_id).filter(ProductSave.user_id == user.id).subquery()
     query = db.query(Product).filter(Product.id.not_in(saved_product_ids))
-    if content != "전체":
-        query = query.filter(Product.content.contains(content))
+    if category != "전체":
+        query = query.filter(Product.content.contains(category))
 
     products: List[Product] = (query.order_by(Product.created_at.desc()).offset(offset).limit(limit).all())
     
