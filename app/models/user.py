@@ -33,6 +33,7 @@ class User(Base):
     )
     feeds = relationship("Feed", back_populates = "user")
     comments = relationship("Comment", back_populates = "user")
+    reviews = relationship("Review", back_populates="user")
     feed_like = relationship("FeedLike", back_populates = "liked_user")
     feed_save = relationship("FeedSave", back_populates = "saved_user")
     products = relationship("Product", back_populates="user")

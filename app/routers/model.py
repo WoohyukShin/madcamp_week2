@@ -1,6 +1,7 @@
 import os
 import redis
 import requests
+import traceback
 import numpy as np
 from typing import Optional, Dict
 from fastapi import APIRouter, Request, Form, UploadFile, File, Depends, HTTPException
@@ -57,7 +58,8 @@ def get_recommendation_from_text(
     db: Session = Depends(get_db),
     user: User = Depends(get_current_user)
 ):
-    colab_url = r.get("COLAB_SERVER_URL")
+    redis_client = redis.Redis.from_url(os.getenv("REDIS_URL"))
+    colab_url = redis_client.get("COLAB_SERVER_URL")
     if not colab_url:
         raise HTTPException(status_code=500, detail="Colab URL is not set")
     colab_url = colab_url.decode("utf-8")
@@ -78,6 +80,7 @@ def get_recommendation_from_text(
         response.raise_for_status()
         result = response.json()  # { "label1": [1,2,3], "label2": [4,5] }
     except Exception as e:
+        traceback.print_exc()  # 전체 traceback 출력
         raise HTTPException(status_code=500, detail=f"Failed to fetch recommendation from Colab: {e}")
 
     recommendations = {}

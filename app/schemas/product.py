@@ -88,3 +88,6 @@ class OrderResponse(BaseModel):
     created_at: datetime
     details: List[OrderItemResponse]
 
+class SaveRequest(BaseModel):
+    options: str
+    quantity: int

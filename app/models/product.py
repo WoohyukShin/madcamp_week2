@@ -64,6 +64,7 @@ class Review(Base):
 
     product = relationship("Product", back_populates="product_review")
     images = relationship("ReviewImage", back_populates = "review")
+    user = relationship("User", back_populates="reviews")
 
 class ReviewImage(Base):
     __tablename__ = "ReviewImage"

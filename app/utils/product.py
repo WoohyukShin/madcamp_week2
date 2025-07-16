@@ -39,7 +39,7 @@ def build_product_response(product: Product, user_id: int) -> ProductResponse:
         category = product.category,
         price = product.price,
         saled_price = product.saled_price,
-        imageURL = next((img.imageURL for img in product.images if img.is_main), None),
+        imageURL = next((img.imageURL for img in product.images if img.is_main), ""),
         images=[ProductImageResponse(id=image.id, imageURL=image.imageURL) for image in product.images],
         created_at = product.created_at,
         is_sold = product.is_sold,
@@ -53,7 +53,7 @@ def build_product_response(product: Product, user_id: int) -> ProductResponse:
             if product.product_review else 0.0
         ),
         options = options_dict,
-        reviews=product.product_review
+        reviews=[build_review_response(r) for r in product.product_review]
     )
 
 def build_product_saved_response(product: Product, user_id: int) -> ProductSavedResponse:
@@ -88,4 +88,22 @@ def build_product_saved_response(product: Product, user_id: int) -> ProductSaved
         imageURL=main_image,
         is_sold=product.is_sold,
         options=options
+    )
+
+def build_review_response(review: Review) -> ReviewResponse:
+    return ReviewResponse(
+        id=review.id,
+        user_id=review.user_id,
+        nickname=review.user.nickname,
+        imageURL=review.user.imageURL or "",
+        rating=review.rating,
+        content=review.content,
+        created_at=review.created_at,
+        images=[
+            ReviewImageResponse(
+                id=img.id,
+                imageURL=img.imageURL
+            )
+            for img in review.images
+        ]
     )

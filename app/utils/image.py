@@ -20,6 +20,7 @@ def save_image(file: UploadFile, folder_name: str) -> str:
     ext = file.filename.split(".")[-1]
     filename = f"{folder_name}/{uuid4().hex}.{ext}"
 
+    file.file.seek(0)
     s3.upload_fileobj(
         file.file,
         AWS_S3_BUCKET,

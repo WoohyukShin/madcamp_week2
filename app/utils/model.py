@@ -12,7 +12,7 @@ def get_image_embedding(image):
     if not colab_url:
         raise HTTPException(status_code=500, detail="Colab URL is not set")
     colab_url = colab_url.decode("utf-8")
-
+    print("Hello World!!!!#!@$!@$!@ from get_image_embedding!@!#$!@$!@$!@$")
     image.file.seek(0)
     try:
         files = {"image": (image.filename, image.file, image.content_type)}

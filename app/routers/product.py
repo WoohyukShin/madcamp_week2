@@ -13,7 +13,7 @@ from app.db.db import get_db
 from app.utils.auth import get_current_user
 from app.utils.image import save_image, delete_image
 from app.utils.model import get_image_embedding
-from app.utils.product import build_product_response, build_product_summary_response, build_product_saved_response
+from app.utils.product import build_product_response, build_product_summary_response, build_product_saved_response, build_review_response
 
 router = APIRouter(prefix="/product")
 r = redis.Redis.from_url(os.getenv("REDIS_URL"))
@@ -26,7 +26,7 @@ def get_products(page: int = Query(..., ge=1), limit: int = Query(...), category
     saved_product_ids = db.query(ProductSave.product_id).filter(ProductSave.user_id == user.id).subquery()
     query = db.query(Product).filter(Product.id.not_in(saved_product_ids))
     if category != "all":
-        query = query.filter(Product.content.contains(category))
+        query = query.filter(Product.category.contains(category))
 
     products: List[Product] = (query.order_by(Product.created_at.desc()).offset(offset).limit(limit).all())
     
@@ -56,7 +56,7 @@ def create_product(
         category=category,
         price=price,
         saled_price=saled_price,
-        embedding=embedding,
+        embedding_vector=embedding,
         is_sold=False,
         created_at=datetime.utcnow(),
     )
@@ -191,6 +191,17 @@ def delete_product(product_id: int, db: Session = Depends(get_db), user: User = 
     db.commit()
     return {"message": "상품 삭제 완료"}
 
+@router.get("/saved", response_model=List[ProductSavedResponse]) # 장바구니에 추가한 상품 목록
+def get_saved_products(page: int = Query(..., ge=1),limit: int = Query(...),db: Session = Depends(get_db),user: User = Depends(get_current_user)):
+    offset = (page - 1) * limit
+    print("Hello World!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1")
+    saved_product_ids = (db.query(ProductSave.product_id).filter(ProductSave.user_id == user.id).subquery())
+
+    products: List[Product] = (db.query(Product).filter(Product.id.in_(saved_product_ids)).order_by(Product.created_at.desc()).offset(offset).limit(limit).all())
+    
+    response = [build_product_saved_response(product, user.id)for product in products]
+    return response
+
 @router.get("/{product_id}", response_model=ProductResponse) # 특정 상품에 대한 상세 정보
 def get_product_detail(product_id: int, db: Session = Depends(get_db), user: User = Depends(get_current_user)):
     product = db.query(Product).filter(Product.id == product_id).first()
@@ -234,20 +245,21 @@ def like_product(product_id: int, db: Session = Depends(get_db), user: User = De
         "likes": product.likes
     }
 
-@router.get("/products/saved", response_model=List[ProductSavedResponse]) # 장바구니에 추가한 상품 목록
-def get_saved_products(page: int = Query(..., ge=1),limit: int = Query(...),db: Session = Depends(get_db),user: User = Depends(get_current_user)):
-    offset = (page - 1) * limit
 
-    saved_product_ids = (db.query(ProductSave.product_id).filter(ProductSave.user_id == user.id).subquery())
+@router.post("/{product_id}/save")
+def save_product(
+    product_id: int,
+    data: SaveRequest,
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_user)
+):
+    options = data.options
+    quantity = data.quantity
+    try:
+        options_dict = json.loads(options)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Option 형식이 틀림")
 
-    products: List[Product] = (db.query(Product).filter(Product.id.in_(saved_product_ids)).order_by(Product.created_at.desc()).offset(offset).limit(limit).all())
-    
-    response = [build_product_saved_response(product, user.id)for product in products]
-    return response
-
-@router.post("/{product_id}/save")  # 장바구니에 추가
-def save_product(product_id: int, quantity: int = Query(1, ge=1), 
-                 options: str = Body(...), db: Session = Depends(get_db), user: User = Depends(get_current_user)):
     product = db.query(Product).filter(Product.id == product_id).first()
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
@@ -257,24 +269,27 @@ def save_product(product_id: int, quantity: int = Query(1, ge=1),
         ProductSave.user_id == user.id
     ).first()
 
-    price = product.price
-    if product.saled_price:
-        price = product.saled_price
+    price = product.saled_price or product.price
 
     if already_saved:
         db.delete(already_saved)
         product.saves -= 1
         action = "unsaved"
     else:
-        save = ProductSave(user_id=user.id, product_id=product_id, created_at=datetime.utcnow(), quantity=quantity,
-                           total_price = price * quantity, selected_options=options)
+        save = ProductSave(
+            user_id=user.id,
+            product_id=product_id,
+            created_at=datetime.utcnow(),
+            quantity=quantity,
+            total_price=price * quantity,
+            selected_options=options  # 👈 여기는 원문 string 저장해도 문제 없음
+        )
         db.add(save)
         product.saves += 1
         action = "saved"
 
     db.commit()
-    return {"is_saved": action == "saved", "saves": product.saves} 
-
+    return {"is_saved": action == "saved", "saves": product.saves}
 
 # 여기부터는 내가 안 함 ...
 '''
@@ -323,7 +338,7 @@ def get_saved_products(
 
     return response
 '''
-@router.put("/product/saved/{product_save_id}")
+@router.put("/saved/{product_save_id}")
 def update_product_quantity(
     product_save_id: int,
     payload: dict = Body(...),
@@ -349,7 +364,7 @@ def update_product_quantity(
 
     return {"unit_price": unit_price, "total_price": save.total_price}
 
-@router.delete("/product/saved/{product_save_id}")
+@router.delete("/saved/{product_save_id}")
 def delete_saved_product(
     product_save_id: int,
     db: Session = Depends(get_db),
@@ -367,7 +382,7 @@ def delete_saved_product(
     db.commit()
     return {"message": "삭제 완료"}
 
-@router.post("/product/{product_id}/review")
+@router.post("/{product_id}/review")
 def create_review(
     product_id: int,
     rating: int = Form(..., ge=1, le=5),
@@ -397,7 +412,7 @@ def create_review(
     # 평균 별점 & 리뷰 개수 업데이트
     reviews = db.query(Review).filter(Review.product_id == product_id).all()
     avg_rating = sum([r.rating for r in reviews]) / len(reviews)
-    product.average_rating = round(avg_rating, 2)
+    average_rating = round(avg_rating, 2)
     product.reviews = len(reviews)
 
     db.commit()
@@ -405,11 +420,11 @@ def create_review(
     return {
         "message": "리뷰 등록 완료",
         "review_id": review.id,
-        "average_rating": product.average_rating,
+        "average_rating": average_rating,
         "ratings": product.reviews
     }
 
-@router.put("/product/review/{review_id}")
+@router.put("/review/{review_id}")
 def update_review(
     review_id: int,
     payload: dict = Body(...),
@@ -438,18 +453,18 @@ def update_review(
     product = review.product
     reviews = db.query(Review).filter(Review.product_id == product.id).all()
     avg_rating = sum([r.rating for r in reviews]) / len(reviews)
-    product.average_rating = round(avg_rating, 2)
+    average_rating = round(avg_rating, 2)
     product.reviews = len(reviews)
 
     db.commit()
 
     return {
         "message": "리뷰 수정 완료",
-        "average_rating": product.average_rating,
+        "average_rating": average_rating,
         "ratings": product.reviews
     }
 
-@router.delete("/product/review/{review_id}")
+@router.delete("/review/{review_id}")
 def delete_review(
     review_id: int,
     db: Session = Depends(get_db),
@@ -471,17 +486,17 @@ def delete_review(
     reviews = db.query(Review).filter(Review.product_id == product.id).all()
     if reviews:
         avg_rating = sum([r.rating for r in reviews]) / len(reviews)
-        product.average_rating = round(avg_rating, 2)
+        average_rating = round(avg_rating, 2)
         product.reviews = len(reviews)
     else:
-        product.average_rating = 0.0
+        average_rating = 0.0
         product.reviews = 0
 
     db.commit()
     return {"message": "리뷰 삭제 완료"}
 
 
-@router.get("/product/{product_id}/reviews", response_model=List[ReviewResponse])
+@router.get("/{product_id}/reviews", response_model=List[ReviewResponse])
 def get_reviews_for_product(
     product_id: int,
     page: int = Query(..., ge=1),
@@ -521,7 +536,7 @@ def get_reviews_for_product(
 
     return response
 
-@router.post("/product/order")
+@router.post("/order")
 def create_order(
     request: List[OrderRequest],
     db: Session = Depends(get_db),
@@ -568,7 +583,7 @@ def create_order(
     db.commit()
     return {"order_id": order.id}
 
-@router.get("/product/order/{order_id}", response_model=OrderResponse)
+@router.get("/order/{order_id}", response_model=OrderResponse)
 def get_order_detail(
     order_id: int,
     db: Session = Depends(get_db),
