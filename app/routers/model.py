@@ -57,5 +57,6 @@ def get_recommendation_from_text(
     
     image_bytes = image.file.read()
     gemini_result = gemini_generate(prompt, image_bytes)
+    print(gemini_result)
 
     return {"result": gemini_result}
