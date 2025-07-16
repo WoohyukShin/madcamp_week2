@@ -6,6 +6,7 @@ from fastapi import FastAPI
 from app.routers import auth, user, feed, comment, product, model
 from app.init_dummy_data import init_dummy_data
 from starlette.responses import Response
+from app.bulk.bulk_insert import bulk_create_from_json
 '''
 init_db()
 conn = sqlite3.connect("local.db")
@@ -21,10 +22,13 @@ app.include_router(model.router)
 
 @app.on_event("startup")
 def startup_event():
+    Base.metadata.drop_all(bind=engine)
+    Base.metadata.create_all(bind=engine)
     init_dummy_data()
+    bulk_create_from_json()
 
-
-@app.middleware("http")
+'''
+app.middleware("http")
 async def log_full_request(request: Request, call_next):
     print("====== INCOMING REQUEST ======")
     for k, v in request.headers.items():
@@ -86,3 +90,4 @@ async def log_full_request(request: Request, call_next):
         headers=dict(response.headers),
         media_type=response.media_type
     )
+'''

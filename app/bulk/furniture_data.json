@@ -1,0 +1,1118 @@
+[
+  {
+    "filename": "modern_minimalist_bed_bed_4.jpg",
+    "color": "indigo",
+    "style": "modern",
+    "category": "bed"
+  },
+  {
+    "filename": "modern_minimalist_bed_bed_3.jpg",
+    "color": "grey",
+    "style": "modern",
+    "category": "bed"
+  },
+  {
+    "filename": "modern_minimalist_bed_bed_7.jpg",
+    "color": "white",
+    "style": "modern",
+    "category": "bed"
+  },
+  {
+    "filename": "modern_minimalist_chair_chair_28.jpg",
+    "color": "brown",
+    "style": "modern",
+    "category": "chair"
+  },
+  {
+    "filename": "modern_minimalist_chair_chair_25.jpg",
+    "color": "brown",
+    "style": "modern",
+    "category": "chair"
+  },
+  {
+    "filename": "modern_minimalist_chair_chair_21.jpg",
+    "color": "white",
+    "style": "modern",
+    "category": "chair"
+  },
+  {
+    "filename": "modern_minimalist_chair_chair_0.jpg",
+    "color": "brown",
+    "style": "modern",
+    "category": "chair"
+  },
+  {
+    "filename": "modern_minimalist_chair_chair_12.jpg",
+    "color": "brown",
+    "style": "modern",
+    "category": "chair"
+  },
+  {
+    "filename": "modern_minimalist_table_table_5.jpg",
+    "color": "white",
+    "style": "modern",
+    "category": "table"
+  },
+  {
+    "filename": "modern_minimalist_table_table_27.jpg",
+    "color": "black",
+    "style": "modern",
+    "category": "table"
+  },
+  {
+    "filename": "modern_minimalist_table_table_22.jpg",
+    "color": "brown",
+    "style": "modern",
+    "category": "table"
+  },
+  {
+    "filename": "modern_minimalist_table_table_21.jpg",
+    "color": "white",
+    "style": "modern",
+    "category": "table"
+  },
+  {
+    "filename": "modern_minimalist_table_table_0.jpg",
+    "color": "brown",
+    "style": "modern",
+    "category": "table"
+  },
+  {
+    "filename": "modern_minimalist_chest_of_drawers_chest_of_drawers_25.jpg",
+    "color": "brown",
+    "style": "modern",
+    "category": "storage"
+  },
+  {
+    "filename": "modern_minimalist_chest_of_drawers_chest_of_drawers_28.jpg",
+    "color": "brown",
+    "style": "modern",
+    "category": "storage"
+  },
+  {
+    "filename": "modern_minimalist_chest_of_drawers_chest_of_drawers_0.jpg",
+    "color": "grey",
+    "style": "modern",
+    "category": "storage"
+  },
+  {
+    "filename": "modern_minimalist_chest_of_drawers_chest_of_drawers_2.jpg",
+    "color": "brown",
+    "style": "modern",
+    "category": "storage"
+  },
+  {
+    "filename": "modern_minimalist_chest_of_drawers_chest_of_drawers_17.jpg",
+    "color": "grey",
+    "style": "modern",
+    "category": "storage"
+  },
+  {
+    "filename": "modern_minimalist_curtain_curtain_24.jpg",
+    "color": "lightblue",
+    "style": "modern",
+    "category": "decor"
+  },
+  {
+    "filename": "modern_minimalist_curtain_curtain_26.jpg",
+    "color": "deepOrange",
+    "style": "modern",
+    "category": "decor"
+  },
+  {
+    "filename": "modern_minimalist_blind_blind_9.jpg",
+    "color": "brown",
+    "style": "modern",
+    "category": "decor"
+  },
+  {
+    "filename": "modern_minimalist_blind_blind_17.jpg",
+    "color": "white",
+    "style": "modern",
+    "category": "decor"
+  },
+  {
+    "filename": "modern_minimalist_blind_blind_20.jpg",
+    "color": "black",
+    "style": "modern",
+    "category": "decor"
+  },
+  {
+    "filename": "modern_minimalist_blind_blind_12.jpg",
+    "color": "orange",
+    "style": "modern",
+    "category": "decor"
+  },
+  {
+    "filename": "modern_minimalist_lamp_lamp_1.jpg",
+    "color": "brown",
+    "style": "modern",
+    "category": "lighting"
+  },
+  {
+    "filename": "modern_minimalist_lamp_lamp_16.jpg",
+    "color": "brown",
+    "style": "modern",
+    "category": "lighting"
+  },
+  {
+    "filename": "modern_minimalist_lamp_lamp_22.jpg",
+    "color": "black",
+    "style": "modern",
+    "category": "lighting"
+  },
+  {
+    "filename": "modern_minimalist_lamp_lamp_27.jpg",
+    "color": "lightblue",
+    "style": "modern",
+    "category": "lighting"
+  },
+  {
+    "filename": "modern_minimalist_rug_rug_8.jpg",
+    "color": "white",
+    "style": "modern",
+    "category": "decor"
+  },
+  {
+    "filename": "modern_minimalist_rug_rug_24.jpg",
+    "color": "white",
+    "style": "modern",
+    "category": "decor"
+  },
+  {
+    "filename": "modern_minimalist_rug_rug_3.jpg",
+    "color": "brown",
+    "style": "modern",
+    "category": "decor"
+  },
+  {
+    "filename": "modern_minimalist_rug_rug_22.jpg",
+    "color": "white",
+    "style": "modern",
+    "category": "decor"
+  },
+  {
+    "filename": "industrial_bed_bed_17.jpg",
+    "color": "white",
+    "style": "industrial",
+    "category": "bed"
+  },
+  {
+    "filename": "industrial_bed_bed_6.jpg",
+    "color": "brown",
+    "style": "industrial",
+    "category": "bed"
+  },
+  {
+    "filename": "industrial_bed_bed_12.jpg",
+    "color": "brown",
+    "style": "industrial",
+    "category": "bed"
+  },
+  {
+    "filename": "industrial_bed_bed_16.jpg",
+    "color": "brown",
+    "style": "industrial",
+    "category": "bed"
+  },
+  {
+    "filename": "industrial_bed_bed_1.jpg",
+    "color": "brown",
+    "style": "industrial",
+    "category": "bed"
+  },
+  {
+    "filename": "industrial_chair_chair_21.jpg",
+    "color": "brown",
+    "style": "industrial",
+    "category": "chair"
+  },
+  {
+    "filename": "industrial_chair_chair_3.jpg",
+    "color": "black",
+    "style": "industrial",
+    "category": "chair"
+  },
+  {
+    "filename": "industrial_chair_chair_7.jpg",
+    "color": "brown",
+    "style": "industrial",
+    "category": "chair"
+  },
+  {
+    "filename": "industrial_chair_chair_29.jpg",
+    "color": "black",
+    "style": "industrial",
+    "category": "chair"
+  },
+  {
+    "filename": "industrial_chair_chair_16.jpg",
+    "color": "brown",
+    "style": "industrial",
+    "category": "chair"
+  },
+  {
+    "filename": "industrial_table_table_27.jpg",
+    "color": "black",
+    "style": "industrial",
+    "category": "table"
+  },
+  {
+    "filename": "industrial_table_table_6.jpg",
+    "color": "brown",
+    "style": "industrial",
+    "category": "table"
+  },
+  {
+    "filename": "industrial_table_table_17.jpg",
+    "color": "brown",
+    "style": "industrial",
+    "category": "table"
+  },
+  {
+    "filename": "industrial_table_table_1.jpg",
+    "color": "brown",
+    "style": "industrial",
+    "category": "table"
+  },
+  {
+    "filename": "industrial_table_table_4.jpg",
+    "color": "brown",
+    "style": "industrial",
+    "category": "table"
+  },
+  {
+    "filename": "industrial_chest_of_drawers_chest_of_drawers_8.jpg",
+    "color": "brown",
+    "style": "industrial",
+    "category": "storage"
+  },
+  {
+    "filename": "industrial_chest_of_drawers_chest_of_drawers_11.jpg",
+    "color": "brown",
+    "style": "industrial",
+    "category": "storage"
+  },
+  {
+    "filename": "industrial_chest_of_drawers_chest_of_drawers_15.jpg",
+    "color": "brown",
+    "style": "industrial",
+    "category": "storage"
+  },
+  {
+    "filename": "industrial_chest_of_drawers_chest_of_drawers_4.jpg",
+    "color": "brown",
+    "style": "industrial",
+    "category": "storage"
+  },
+  {
+    "filename": "industrial_chest_of_drawers_chest_of_drawers_1.jpg",
+    "color": "brown",
+    "style": "industrial",
+    "category": "storage"
+  },
+  {
+    "filename": "industrial_blind_blind_22.jpg",
+    "color": "black",
+    "style": "industrial",
+    "category": "decor"
+  },
+  {
+    "filename": "industrial_blind_blind_20.jpg",
+    "color": "white",
+    "style": "industrial",
+    "category": "decor"
+  },
+  {
+    "filename": "industrial_blind_blind_12.jpg",
+    "color": "black",
+    "style": "industrial",
+    "category": "decor"
+  },
+  {
+    "filename": "industrial_lamp_lamp_18.jpg",
+    "color": "black",
+    "style": "industrial",
+    "category": "lighting"
+  },
+  {
+    "filename": "industrial_lamp_lamp_1.jpg",
+    "color": "black",
+    "style": "industrial",
+    "category": "lighting"
+  },
+  {
+    "filename": "industrial_lamp_lamp_2.jpg",
+    "color": "black",
+    "style": "industrial",
+    "category": "lighting"
+  },
+  {
+    "filename": "industrial_lamp_lamp_17.jpg",
+    "color": "black",
+    "style": "industrial",
+    "category": "lighting"
+  },
+  {
+    "filename": "industrial_lamp_lamp_14.jpg",
+    "color": "black",
+    "style": "industrial",
+    "category": "lighting"
+  },
+  {
+    "filename": "industrial_rug_rug_27.jpg",
+    "color": "grey",
+    "style": "industrial",
+    "category": "decor"
+  },
+  {
+    "filename": "industrial_rug_rug_8.jpg",
+    "color": "grey",
+    "style": "industrial",
+    "category": "decor"
+  },
+  {
+    "filename": "industrial_rug_rug_15.jpg",
+    "color": "grey",
+    "style": "industrial",
+    "category": "decor"
+  },
+  {
+    "filename": "scandinavian_bed_bed_23.jpg",
+    "color": "brown",
+    "style": "scandinavian",
+    "category": "bed"
+  },
+  {
+    "filename": "scandinavian_bed_bed_6.jpg",
+    "color": "brown",
+    "style": "scandinavian",
+    "category": "bed"
+  },
+  {
+    "filename": "scandinavian_bed_bed_27.jpg",
+    "color": "black",
+    "style": "scandinavian",
+    "category": "bed"
+  },
+  {
+    "filename": "scandinavian_bed_bed_2.jpg",
+    "color": "brown",
+    "style": "scandinavian",
+    "category": "bed"
+  },
+  {
+    "filename": "scandinavian_bed_bed_8.jpg",
+    "color": "brown",
+    "style": "scandinavian",
+    "category": "bed"
+  },
+  {
+    "filename": "scandinavian_chair_chair_14.jpg",
+    "color": "white",
+    "style": "scandinavian",
+    "category": "chair"
+  },
+  {
+    "filename": "scandinavian_chair_chair_26.jpg",
+    "color": "brown",
+    "style": "scandinavian",
+    "category": "chair"
+  },
+  {
+    "filename": "scandinavian_chair_chair_18.jpg",
+    "color": "brown",
+    "style": "scandinavian",
+    "category": "chair"
+  },
+  {
+    "filename": "scandinavian_chair_chair_5.jpg",
+    "color": "yellow",
+    "style": "scandinavian",
+    "category": "chair"
+  },
+  {
+    "filename": "scandinavian_chair_chair_20.jpg",
+    "color": "white",
+    "style": "scandinavian",
+    "category": "chair"
+  },
+  {
+    "filename": "scandinavian_table_table_2.jpg",
+    "color": "brown",
+    "style": "scandinavian",
+    "category": "table"
+  },
+  {
+    "filename": "scandinavian_table_table_9.jpg",
+    "color": "orange",
+    "style": "scandinavian",
+    "category": "table"
+  },
+  {
+    "filename": "scandinavian_table_table_13.jpg",
+    "color": "white",
+    "style": "scandinavian",
+    "category": "table"
+  },
+  {
+    "filename": "scandinavian_table_table_29.jpg",
+    "color": "white",
+    "style": "scandinavian",
+    "category": "table"
+  },
+  {
+    "filename": "scandinavian_table_table_27.jpg",
+    "color": "brown",
+    "style": "scandinavian",
+    "category": "table"
+  },
+  {
+    "filename": "scandinavian_chest_of_drawers_chest_of_drawers_11.jpg",
+    "color": "brown",
+    "style": "scandinavian",
+    "category": "storage"
+  },
+  {
+    "filename": "scandinavian_chest_of_drawers_chest_of_drawers_6.jpg",
+    "color": "brown",
+    "style": "scandinavian",
+    "category": "storage"
+  },
+  {
+    "filename": "scandinavian_chest_of_drawers_chest_of_drawers_16.jpg",
+    "color": "brown",
+    "style": "scandinavian",
+    "category": "storage"
+  },
+  {
+    "filename": "scandinavian_curtain_curtain_10.jpg",
+    "color": "white",
+    "style": "scandinavian",
+    "category": "decor"
+  },
+  {
+    "filename": "scandinavian_curtain_curtain_21.jpg",
+    "color": "white",
+    "style": "scandinavian",
+    "category": "decor"
+  },
+  {
+    "filename": "scandinavian_blind_blind_29.jpg",
+    "color": "brown",
+    "style": "scandinavian",
+    "category": "decor"
+  },
+  {
+    "filename": "scandinavian_blind_blind_12.jpg",
+    "color": "brown",
+    "style": "scandinavian",
+    "category": "decor"
+  },
+  {
+    "filename": "scandinavian_blind_blind_21.jpg",
+    "color": "lightblue",
+    "style": "scandinavian",
+    "category": "decor"
+  },
+  {
+    "filename": "scandinavian_lamp_lamp_12.jpg",
+    "color": "brown",
+    "style": "scandinavian",
+    "category": "lighting"
+  },
+  {
+    "filename": "scandinavian_lamp_lamp_21.jpg",
+    "color": "brown",
+    "style": "scandinavian",
+    "category": "lighting"
+  },
+  {
+    "filename": "scandinavian_lamp_lamp_15.jpg",
+    "color": "yellow",
+    "style": "scandinavian",
+    "category": "lighting"
+  },
+  {
+    "filename": "scandinavian_lamp_lamp_26.jpg",
+    "color": "white",
+    "style": "scandinavian",
+    "category": "lighting"
+  },
+  {
+    "filename": "scandinavian_lamp_lamp_8.jpg",
+    "color": "brown",
+    "style": "scandinavian",
+    "category": "lighting"
+  },
+  {
+    "filename": "scandinavian_rug_rug_19.jpg",
+    "color": "white",
+    "style": "scandinavian",
+    "category": "decor"
+  },
+  {
+    "filename": "scandinavian_rug_rug_18.jpg",
+    "color": "white",
+    "style": "scandinavian",
+    "category": "decor"
+  },
+  {
+    "filename": "scandinavian_rug_rug_23.jpg",
+    "color": "grey",
+    "style": "scandinavian",
+    "category": "decor"
+  },
+  {
+    "filename": "rustic_farmhouse_bed_bed_2.jpg",
+    "color": "white",
+    "style": "rustic",
+    "category": "bed"
+  },
+  {
+    "filename": "rustic_farmhouse_bed_bed_16.jpg",
+    "color": "brown",
+    "style": "rustic",
+    "category": "bed"
+  },
+  {
+    "filename": "rustic_farmhouse_bed_bed_1.jpg",
+    "color": "brown",
+    "style": "rustic",
+    "category": "bed"
+  },
+  {
+    "filename": "rustic_farmhouse_bed_bed_11.jpg",
+    "color": "brown",
+    "style": "rustic",
+    "category": "bed"
+  },
+  {
+    "filename": "rustic_farmhouse_bed_bed_24.jpg",
+    "color": "brown",
+    "style": "rustic",
+    "category": "bed"
+  },
+  {
+    "filename": "rustic_farmhouse_chair_chair_10.jpg",
+    "color": "brown",
+    "style": "rustic",
+    "category": "chair"
+  },
+  {
+    "filename": "rustic_farmhouse_chair_chair_24.jpg",
+    "color": "lime",
+    "style": "rustic",
+    "category": "chair"
+  },
+  {
+    "filename": "rustic_farmhouse_chair_chair_17.jpg",
+    "color": "brown",
+    "style": "rustic",
+    "category": "chair"
+  },
+  {
+    "filename": "rustic_farmhouse_chair_chair_27.jpg",
+    "color": "brown",
+    "style": "rustic",
+    "category": "chair"
+  },
+  {
+    "filename": "rustic_farmhouse_chair_chair_3.jpg",
+    "color": "brown",
+    "style": "rustic",
+    "category": "chair"
+  },
+  {
+    "filename": "rustic_farmhouse_table_table_1.jpg",
+    "color": "brown",
+    "style": "rustic",
+    "category": "table"
+  },
+  {
+    "filename": "rustic_farmhouse_table_table_7.jpg",
+    "color": "brown",
+    "style": "rustic",
+    "category": "table"
+  },
+  {
+    "filename": "rustic_farmhouse_table_table_6.jpg",
+    "color": "brown",
+    "style": "rustic",
+    "category": "table"
+  },
+  {
+    "filename": "rustic_farmhouse_table_table_0.jpg",
+    "color": "brown",
+    "style": "rustic",
+    "category": "table"
+  },
+  {
+    "filename": "rustic_farmhouse_table_table_10.jpg",
+    "color": "brown",
+    "style": "rustic",
+    "category": "table"
+  },
+  {
+    "filename": "rustic_farmhouse_chest_of_drawers_chest_of_drawers_23.jpg",
+    "color": "brown",
+    "style": "rustic",
+    "category": "storage"
+  },
+  {
+    "filename": "rustic_farmhouse_chest_of_drawers_chest_of_drawers_10.jpg",
+    "color": "white",
+    "style": "rustic",
+    "category": "storage"
+  },
+  {
+    "filename": "rustic_farmhouse_curtain_curtain_9.jpg",
+    "color": "white",
+    "style": "rustic",
+    "category": "decor"
+  },
+  {
+    "filename": "rustic_farmhouse_curtain_curtain_10.jpg",
+    "color": "brown",
+    "style": "rustic",
+    "category": "decor"
+  },
+  {
+    "filename": "rustic_farmhouse_curtain_curtain_21.jpg",
+    "color": "white",
+    "style": "rustic",
+    "category": "decor"
+  },
+  {
+    "filename": "rustic_farmhouse_curtain_curtain_27.jpg",
+    "color": "pink",
+    "style": "rustic",
+    "category": "decor"
+  },
+  {
+    "filename": "rustic_farmhouse_blind_blind_21.jpg",
+    "color": "white",
+    "style": "rustic",
+    "category": "decor"
+  },
+  {
+    "filename": "rustic_farmhouse_blind_blind_22.jpg",
+    "color": "white",
+    "style": "rustic",
+    "category": "decor"
+  },
+  {
+    "filename": "rustic_farmhouse_blind_blind_11.jpg",
+    "color": "brown",
+    "style": "rustic",
+    "category": "decor"
+  },
+  {
+    "filename": "rustic_farmhouse_blind_blind_8.jpg",
+    "color": "white",
+    "style": "rustic",
+    "category": "decor"
+  },
+  {
+    "filename": "rustic_farmhouse_lamp_lamp_12.jpg",
+    "color": "white",
+    "style": "rustic",
+    "category": "lighting"
+  },
+  {
+    "filename": "rustic_farmhouse_lamp_lamp_29.jpg",
+    "color": "brown",
+    "style": "rustic",
+    "category": "lighting"
+  },
+  {
+    "filename": "rustic_farmhouse_lamp_lamp_8.jpg",
+    "color": "yellow",
+    "style": "rustic",
+    "category": "lighting"
+  },
+  {
+    "filename": "rustic_farmhouse_lamp_lamp_9.jpg",
+    "color": "black",
+    "style": "rustic",
+    "category": "lighting"
+  },
+  {
+    "filename": "rustic_farmhouse_lamp_lamp_15.jpg",
+    "color": "white",
+    "style": "rustic",
+    "category": "lighting"
+  },
+  {
+    "filename": "rustic_farmhouse_rug_rug_11.jpg",
+    "color": "white",
+    "style": "rustic",
+    "category": "decor"
+  },
+  {
+    "filename": "rustic_farmhouse_rug_rug_22.jpg",
+    "color": "white",
+    "style": "rustic",
+    "category": "decor"
+  },
+  {
+    "filename": "rustic_farmhouse_rug_rug_24.jpg",
+    "color": "brown",
+    "style": "rustic",
+    "category": "decor"
+  },
+  {
+    "filename": "rustic_farmhouse_rug_rug_6.jpg",
+    "color": "blue",
+    "style": "rustic",
+    "category": "decor"
+  },
+  {
+    "filename": "traditional_classic_bed_bed_16.jpg",
+    "color": "brown",
+    "style": "traditional",
+    "category": "bed"
+  },
+  {
+    "filename": "traditional_classic_bed_bed_4.jpg",
+    "color": "brown",
+    "style": "traditional",
+    "category": "bed"
+  },
+  {
+    "filename": "traditional_classic_bed_bed_3.jpg",
+    "color": "brown",
+    "style": "traditional",
+    "category": "bed"
+  },
+  {
+    "filename": "traditional_classic_bed_bed_0.jpg",
+    "color": "brown",
+    "style": "traditional",
+    "category": "bed"
+  },
+  {
+    "filename": "traditional_classic_bed_bed_1.jpg",
+    "color": "white",
+    "style": "traditional",
+    "category": "bed"
+  },
+  {
+    "filename": "traditional_classic_chair_chair_5.jpg",
+    "color": "black",
+    "style": "traditional",
+    "category": "chair"
+  },
+  {
+    "filename": "traditional_classic_chair_chair_15.jpg",
+    "color": "brown",
+    "style": "traditional",
+    "category": "chair"
+  },
+  {
+    "filename": "traditional_classic_chair_chair_24.jpg",
+    "color": "brown",
+    "style": "traditional",
+    "category": "chair"
+  },
+  {
+    "filename": "traditional_classic_chair_chair_3.jpg",
+    "color": "brown",
+    "style": "traditional",
+    "category": "chair"
+  },
+  {
+    "filename": "traditional_classic_chair_chair_12.jpg",
+    "color": "brown",
+    "style": "traditional",
+    "category": "chair"
+  },
+  {
+    "filename": "traditional_classic_table_table_3.jpg",
+    "color": "brown",
+    "style": "traditional",
+    "category": "table"
+  },
+  {
+    "filename": "traditional_classic_table_table_1.jpg",
+    "color": "brown",
+    "style": "traditional",
+    "category": "table"
+  },
+  {
+    "filename": "traditional_classic_table_table_0.jpg",
+    "color": "brown",
+    "style": "traditional",
+    "category": "table"
+  },
+  {
+    "filename": "traditional_classic_chest_of_drawers_chest_of_drawers_5.jpg",
+    "color": "brown",
+    "style": "traditional",
+    "category": "storage"
+  },
+  {
+    "filename": "traditional_classic_chest_of_drawers_chest_of_drawers_20.jpg",
+    "color": "brown",
+    "style": "traditional",
+    "category": "storage"
+  },
+  {
+    "filename": "traditional_classic_chest_of_drawers_chest_of_drawers_1.jpg",
+    "color": "brown",
+    "style": "traditional",
+    "category": "storage"
+  },
+  {
+    "filename": "traditional_classic_chest_of_drawers_chest_of_drawers_12.jpg",
+    "color": "brown",
+    "style": "traditional",
+    "category": "storage"
+  },
+  {
+    "filename": "traditional_classic_curtain_curtain_15.jpg",
+    "color": "brown",
+    "style": "traditional",
+    "category": "decor"
+  },
+  {
+    "filename": "traditional_classic_curtain_curtain_19.jpg",
+    "color": "white",
+    "style": "traditional",
+    "category": "decor"
+  },
+  {
+    "filename": "traditional_classic_curtain_curtain_10.jpg",
+    "color": "white",
+    "style": "traditional",
+    "category": "decor"
+  },
+  {
+    "filename": "traditional_classic_blind_blind_8.jpg",
+    "color": "brown",
+    "style": "traditional",
+    "category": "decor"
+  },
+  {
+    "filename": "traditional_classic_lamp_lamp_1.jpg",
+    "color": "brown",
+    "style": "traditional",
+    "category": "lighting"
+  },
+  {
+    "filename": "traditional_classic_lamp_lamp_13.jpg",
+    "color": "brown",
+    "style": "traditional",
+    "category": "lighting"
+  },
+  {
+    "filename": "traditional_classic_lamp_lamp_5.jpg",
+    "color": "yellow",
+    "style": "traditional",
+    "category": "lighting"
+  },
+  {
+    "filename": "traditional_classic_lamp_lamp_10.jpg",
+    "color": "brown",
+    "style": "traditional",
+    "category": "lighting"
+  },
+  {
+    "filename": "traditional_classic_rug_rug_4.jpg",
+    "color": "red",
+    "style": "traditional",
+    "category": "decor"
+  },
+  {
+    "filename": "traditional_classic_rug_rug_24.jpg",
+    "color": "indigo",
+    "style": "traditional",
+    "category": "decor"
+  },
+  {
+    "filename": "bohemian_bed_bed_21.jpg",
+    "color": "white",
+    "style": "bohemian",
+    "category": "bed"
+  },
+  {
+    "filename": "bohemian_bed_bed_16.jpg",
+    "color": "white",
+    "style": "bohemian",
+    "category": "bed"
+  },
+  {
+    "filename": "bohemian_bed_bed_28.jpg",
+    "color": "white",
+    "style": "bohemian",
+    "category": "bed"
+  },
+  {
+    "filename": "bohemian_bed_bed_26.jpg",
+    "color": "cyan",
+    "style": "bohemian",
+    "category": "bed"
+  },
+  {
+    "filename": "bohemian_bed_bed_15.jpg",
+    "color": "white",
+    "style": "bohemian",
+    "category": "bed"
+  },
+  {
+    "filename": "bohemian_chair_chair_19.jpg",
+    "color": "cyan",
+    "style": "bohemian",
+    "category": "chair"
+  },
+  {
+    "filename": "bohemian_chair_chair_13.jpg",
+    "color": "brown",
+    "style": "bohemian",
+    "category": "chair"
+  },
+  {
+    "filename": "bohemian_chair_chair_16.jpg",
+    "color": "blue",
+    "style": "bohemian",
+    "category": "chair"
+  },
+  {
+    "filename": "bohemian_chair_chair_24.jpg",
+    "color": "blue",
+    "style": "bohemian",
+    "category": "chair"
+  },
+  {
+    "filename": "bohemian_chair_chair_18.jpg",
+    "color": "lime",
+    "style": "bohemian",
+    "category": "chair"
+  },
+  {
+    "filename": "bohemian_table_table_17.jpg",
+    "color": "brown",
+    "style": "bohemian",
+    "category": "table"
+  },
+  {
+    "filename": "bohemian_table_table_27.jpg",
+    "color": "brown",
+    "style": "bohemian",
+    "category": "table"
+  },
+  {
+    "filename": "bohemian_table_table_28.jpg",
+    "color": "blue",
+    "style": "bohemian",
+    "category": "table"
+  },
+  {
+    "filename": "bohemian_chest_of_drawers_chest_of_drawers_15.jpg",
+    "color": "cyan",
+    "style": "bohemian",
+    "category": "storage"
+  },
+  {
+    "filename": "bohemian_chest_of_drawers_chest_of_drawers_18.jpg",
+    "color": "cyan",
+    "style": "bohemian",
+    "category": "storage"
+  },
+  {
+    "filename": "bohemian_chest_of_drawers_chest_of_drawers_2.jpg",
+    "color": "brown",
+    "style": "bohemian",
+    "category": "storage"
+  },
+  {
+    "filename": "bohemian_chest_of_drawers_chest_of_drawers_13.jpg",
+    "color": "white",
+    "style": "bohemian",
+    "category": "storage"
+  },
+  {
+    "filename": "bohemian_chest_of_drawers_chest_of_drawers_20.jpg",
+    "color": "yellow",
+    "style": "bohemian",
+    "category": "storage"
+  },
+  {
+    "filename": "bohemian_curtain_curtain_12.jpg",
+    "color": "white",
+    "style": "bohemian",
+    "category": "decor"
+  },
+  {
+    "filename": "bohemian_curtain_curtain_27.jpg",
+    "color": "blue",
+    "style": "bohemian",
+    "category": "decor"
+  },
+  {
+    "filename": "bohemian_curtain_curtain_23.jpg",
+    "color": "orange",
+    "style": "bohemian",
+    "category": "decor"
+  },
+  {
+    "filename": "bohemian_curtain_curtain_20.jpg",
+    "color": "orange",
+    "style": "bohemian",
+    "category": "decor"
+  },
+  {
+    "filename": "bohemian_curtain_curtain_28.jpg",
+    "color": "red",
+    "style": "bohemian",
+    "category": "decor"
+  },
+  {
+    "filename": "bohemian_blind_blind_23.jpg",
+    "color": "white",
+    "style": "bohemian",
+    "category": "decor"
+  },
+  {
+    "filename": "bohemian_blind_blind_14.jpg",
+    "color": "white",
+    "style": "bohemian",
+    "category": "decor"
+  },
+  {
+    "filename": "bohemian_blind_blind_1.jpg",
+    "color": "white",
+    "style": "bohemian",
+    "category": "decor"
+  },
+  {
+    "filename": "bohemian_blind_blind_21.jpg",
+    "color": "red",
+    "style": "bohemian",
+    "category": "decor"
+  },
+  {
+    "filename": "bohemian_blind_blind_0.jpg",
+    "color": "brown",
+    "style": "bohemian",
+    "category": "decor"
+  },
+  {
+    "filename": "bohemian_lamp_lamp_23.jpg",
+    "color": "brown",
+    "style": "bohemian",
+    "category": "lighting"
+  },
+  {
+    "filename": "bohemian_lamp_lamp_16.jpg",
+    "color": "brown",
+    "style": "bohemian",
+    "category": "lighting"
+  },
+  {
+    "filename": "bohemian_lamp_lamp_9.jpg",
+    "color": "white",
+    "style": "bohemian",
+    "category": "lighting"
+  }
+]

@@ -12,7 +12,7 @@ def get_image_embedding(image):
     if not colab_url:
         raise HTTPException(status_code=500, detail="Colab URL is not set")
     colab_url = colab_url.decode("utf-8")
-    print("Hello World!!!!#!@$!@$!@ from get_image_embedding!@!#$!@$!@$!@$")
+
     image.file.seek(0)
     try:
         files = {"image": (image.filename, image.file, image.content_type)}
@@ -36,3 +36,18 @@ def get_text_embedding(text):
         return embedding
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch embedding from Colab: {e}")
+
+def gemini_generate(prompt: str, img_bytes: bytes) -> str:
+    import google.generativeai as genai
+    genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+    model = genai.GenerativeModel("gemini-1.5-flash")
+    image_part = {
+        "mime_type": "image/jpeg",
+        "data": img_bytes
+    }
+
+    try:
+        response = model.generate_content([prompt, image_part])
+        return response.text.strip()
+    except Exception as e:
+        raise Exception(f"Gemini generate_content 오류: {str(e)}")

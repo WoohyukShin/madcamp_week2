@@ -9,6 +9,7 @@ def build_product_summary_response(product: Product, user_id: int) -> ProductSum
         seller=product.user.nickname,
         name=product.name,
         price=product.price,
+        content=product.content,
         saled_price=product.saled_price,
         imageURL=next((img.imageURL for img in product.images if img.is_main), ""),
         is_sold=product.is_sold,
@@ -70,7 +71,11 @@ def build_product_saved_response(product: Product, user_id: int) -> ProductSaved
     if saved_entry.selected_options:
         try:
             import json
-            options = json.loads(saved_entry.selected_options)
+            raw_options = json.loads(saved_entry.selected_options)
+            options = {
+                k: v[0] if isinstance(v, list) else v
+                for k, v in raw_options.items()
+            }
         except (json.JSONDecodeError, TypeError):
             raise HTTPException(status_code=500, detail="선택된 옵션 형식이 잘못되었습니다.")
 

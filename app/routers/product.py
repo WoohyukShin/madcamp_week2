@@ -22,7 +22,7 @@ def get_products(page: int = Query(..., ge=1), limit: int = Query(...), category
     query = db.query(Product)
     if category != "all":
         query = query.filter(Product.category.contains(category))
-        
+
     products: List[Product] = (query.order_by(Product.created_at.desc()).offset(offset).limit(limit).all())
     
     response = []

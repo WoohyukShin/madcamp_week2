@@ -12,10 +12,10 @@ import google.generativeai as genai
 from PIL import Image
 import tempfile
 
-load_dotenv()
-key=os.getenv("GEMINI_API_KEY")
+# load_dotenv()
+# key=os.getenv("GEMINI_API_KEY")
 def gemini_generate(prompt: str, img_bytes: bytes) -> str:
-    genai.configure(api_key=key)
+    genai.configure(api_key="AIzaSyAjG2e0ECRcU02r3EP_64XtAq6RqtpPB24")
     model = genai.GenerativeModel("gemini-1.5-flash")
     image_part = {
         "mime_type": "image/jpeg",
