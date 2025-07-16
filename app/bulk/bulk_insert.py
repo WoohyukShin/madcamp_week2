@@ -21,6 +21,7 @@ def bulk_create_from_json():
     with open(json_path, "r", encoding="utf-8") as f:
         data = json.load(f)
 
+    i = 0
     for item in data:
         filename = item["filename"]
         color = item["color"]
@@ -29,10 +30,10 @@ def bulk_create_from_json():
 
         price = random.randrange(10000, 300000 + 1, 10000)
         saled_price = random.randrange(10000, price + 1, 10000)
-
+        i = i + 1
         product = Product(
             user_id=1,
-            name=filename,
+            name=f"{category}{i}",
             content=f"{style} {color} 제품입니다.",
             category=category,
             price=price,
