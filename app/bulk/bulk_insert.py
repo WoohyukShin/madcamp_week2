@@ -32,7 +32,7 @@ def bulk_create_from_json():
 
         product = Product(
             user_id=1,
-            name={filename},
+            name=filename,
             content=f"{style} 스타일의 {color} 컬러 제품입니다.",
             category=category,
             price=price,
@@ -40,6 +40,7 @@ def bulk_create_from_json():
             is_sold=False,
             created_at=datetime.utcnow()
         )
+
         db.add(product)
         db.flush()  # product.id 확보용
 
