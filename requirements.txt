@@ -5,12 +5,11 @@ pydantic[email]
 email-validator
 python-jose
 python-dotenv
-redis
 passlib
 bcrypt<4.0.0
 psycopg2-binary
-requests
 python-multipart
 boto3
 secure-smtplib
 numpy
+google-generativeai

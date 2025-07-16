@@ -25,16 +25,8 @@ class FeedImage(Base):
     id = Column(Integer, primary_key = True, index = True)
     feed_id = Column(Integer, ForeignKey("Feed.id", ondelete = "CASCADE"))
     imageURL = Column(String)
-    embedding = Column(Text, nullable=True)
 
     feed = relationship("Feed", back_populates = "images")
-
-    @property
-    def embedding_vector(self):
-        return json.loads(self.embedding) if self.embedding else None
-    @embedding_vector.setter
-    def embedding_vector(self, vector):
-        self.embedding = json.dumps(vector)
 
 class Comment(Base):
     __tablename__ = "Comment"
@@ -57,4 +49,3 @@ class Comment(Base):
         backref=backref("parent", remote_side=[id]),
         cascade="all, delete-orphan"
     )
-

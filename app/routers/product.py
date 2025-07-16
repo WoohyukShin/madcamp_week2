@@ -1,7 +1,5 @@
 import os
 import json
-import redis
-import requests
 from app.schemas import *
 from typing import List
 from datetime import datetime
@@ -12,11 +10,9 @@ from app.models import *
 from app.db.db import get_db
 from app.utils.auth import get_current_user
 from app.utils.image import save_image, delete_image
-from app.utils.model import get_image_embedding
 from app.utils.product import build_product_response, build_product_summary_response, build_product_saved_response, build_review_response
 
 router = APIRouter(prefix="/product")
-r = redis.Redis.from_url(os.getenv("REDIS_URL"))
 
 @router.get("/products", response_model=List[ProductSummaryResponse])  # 상품 목록 조회 (내가 장바구니에 담은 상품 제외)
 def get_products(page: int = Query(..., ge=1), limit: int = Query(...), category: str = Query("all"),
@@ -46,9 +42,6 @@ def create_product(
     images: List[UploadFile] = File([]),
     db: Session = Depends(get_db), user: User = Depends(get_current_user)):
 
-    main_image = images[0]
-    embedding = get_image_embedding(main_image)
-
     product = Product(
         user_id=user.id,
         name=name,
@@ -56,7 +49,6 @@ def create_product(
         category=category,
         price=price,
         saled_price=saled_price,
-        embedding_vector=embedding,
         is_sold=False,
         created_at=datetime.utcnow(),
     )
@@ -72,19 +64,6 @@ def create_product(
             is_main=(i == 0)
         )
         db.add(product_image)
-
-    try:
-        colab_url = r.get("COLAB_SERVER_URL")
-        if colab_url:
-            colab_url = colab_url.decode("utf-8")
-            payload = {
-                "id": product.id,
-                "embedding": embedding,
-                "label": product.category
-            }
-            requests.post(f"{colab_url}/append/embedding", json=payload)
-    except Exception as e:
-        print(f"[Colab Sync Error] embedding 추가 실패: {e}")
 
     try:
         option_dict = json.loads(options)
@@ -179,14 +158,6 @@ def delete_product(product_id: int, db: Session = Depends(get_db), user: User = 
         raise HTTPException(status_code=404, detail="Product not found")
 
     db.delete(product)
-
-    try:
-        colab_url = r.get("COLAB_SERVER_URL")
-        if colab_url:
-            colab_url = colab_url.decode("utf-8")
-            requests.post(f"{colab_url}/remove/embedding", json={"id": product.id})
-    except Exception as e:
-        print(f"[Colab Sync Error] embedding 제거 실패: {e}")
 
     db.commit()
     return {"message": "상품 삭제 완료"}
@@ -620,5 +591,3 @@ def get_order_detail(
         created_at=order.created_at,
         details=item_responses
     )
-
-

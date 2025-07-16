@@ -23,8 +23,7 @@ class Product(Base):
     likes = Column(Integer, default = 0)
     reviews = Column(Integer, default = 0)
     options = Column(Integer, default = 0)
-    # 벡터 임베딩, 품절 여부
-    embedding = Column(Text, nullable=True)  # 메인 이미지의 임베딩
+    # 품절 여부
     is_sold = Column(Boolean, default=False)
 
     user = relationship("User", back_populates="products")
@@ -33,14 +32,6 @@ class Product(Base):
     product_review = relationship("Review", back_populates="product")
     product_option = relationship("Option", back_populates="product")
     images = relationship("ProductImage", back_populates = "product")
-
-    @property
-    def embedding_vector(self):
-        return json.loads(self.embedding) if self.embedding else None
-
-    @embedding_vector.setter
-    def embedding_vector(self, vector):
-        self.embedding = json.dumps(vector)
 
 class ProductImage(Base):
     __tablename__ = "ProductImage"
