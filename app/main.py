@@ -3,7 +3,7 @@ from app.db.init_db import init_db
 from app.db.db import Base, engine
 from fastapi import Request
 from fastapi import FastAPI
-from app.routers import auth, user, feed, comment, product
+from app.routers import auth, user, feed, comment, product, model
 from app.init_dummy_data import init_dummy_data
 from starlette.responses import Response
 '''
@@ -17,6 +17,7 @@ app.include_router(feed.router)
 app.include_router(user.router)
 app.include_router(comment.router)
 app.include_router(product.router)
+app.include_router(model.router)
 
 @app.on_event("startup")
 def startup_event():

@@ -69,10 +69,9 @@ def build_product_saved_response(product: Product, user_id: int) -> ProductSaved
     options = {}
     if saved_entry.selected_options:
         try:
-            for item in saved_entry.selected_options.split(","):
-                key, value = item.split(":")
-                options[key.strip()] = value.strip()
-        except Exception:
+            import json
+            options = json.loads(saved_entry.selected_options)
+        except (json.JSONDecodeError, TypeError):
             raise HTTPException(status_code=500, detail="선택된 옵션 형식이 잘못되었습니다.")
 
     return ProductSavedResponse(

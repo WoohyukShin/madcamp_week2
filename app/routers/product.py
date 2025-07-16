@@ -19,11 +19,10 @@ def get_products(page: int = Query(..., ge=1), limit: int = Query(...), category
     db: Session = Depends(get_db), user: User = Depends(get_current_user)):
     offset = (page - 1) * limit
 
-    saved_product_ids = db.query(ProductSave.product_id).filter(ProductSave.user_id == user.id).subquery()
-    query = db.query(Product).filter(Product.id.not_in(saved_product_ids))
+    query = db.query(Product)
     if category != "all":
         query = query.filter(Product.category.contains(category))
-
+        
     products: List[Product] = (query.order_by(Product.created_at.desc()).offset(offset).limit(limit).all())
     
     response = []
