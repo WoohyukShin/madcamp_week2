@@ -13,3 +13,4 @@ boto3
 secure-smtplib
 numpy
 google-generativeai
+pillow
