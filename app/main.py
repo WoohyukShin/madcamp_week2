@@ -22,10 +22,10 @@ app.include_router(model.router)
 
 @app.on_event("startup")
 def startup_event():
-    Base.metadata.drop_all(bind=engine)
-    Base.metadata.create_all(bind=engine)
+    # Base.metadata.drop_all(bind=engine)
+    # Base.metadata.create_all(bind=engine)
     init_dummy_data()
-    bulk_create_from_json()
+    # bulk_create_from_json()
 
 '''
 app.middleware("http")
